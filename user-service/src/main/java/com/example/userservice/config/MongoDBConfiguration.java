@@ -16,8 +16,8 @@ public class MongoDBConfiguration {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
-                //userRepository.save(new User("user_1312321323", "Imenko", "Prezimic",
-                //        "testusername", "testpass"));
+                userRepository.save(new User("user_1312321323", "Imenko", "Prezimic",
+                        "testusername", "testpass"));
             }
         };
     }

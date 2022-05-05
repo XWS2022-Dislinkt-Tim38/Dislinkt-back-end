@@ -6,11 +6,8 @@ import com.example.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,7 +15,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserDTO getUser(String id){
+    public UserDTO getUser(String id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null)
             return new UserDTO(user);
@@ -27,35 +24,36 @@ public class UserService {
 
     }
 
+
     public List<UserDTO> getAllUsers() {
-        
+
         List<User> users = userRepository.findAll();
         List<UserDTO> usersDTO = new ArrayList<>();
 
-        for(User user : users){
+        for (User user : users) {
             usersDTO.add(new UserDTO(user));
         }
 
         return usersDTO;
     }
 
-    public UserDTO addUser(UserDTO newUserDTO){
 
-        if(!usernameExists(newUserDTO.username)){
+    public UserDTO addUser(UserDTO newUserDTO) {
+
+        if (!usernameExists(newUserDTO.username)) {
             User newUser = new User(newUserDTO);
             userRepository.save(newUser);
             return new UserDTO(newUser);
-        }
-        else
+        } else
             return null;
 
     }
 
-    private boolean usernameExists(String username){
+    private boolean usernameExists(String username) {
         List<User> users = userRepository.findAll();
         boolean usernameExists = false;
 
-        for(User user: users)
+        for (User user : users)
             if (user.username.equals(username)) {
                 usernameExists = true;
                 break;
@@ -63,10 +61,11 @@ public class UserService {
         return usernameExists;
     }
 
-    public boolean updateUser(UserDTO updateUserDTO){
+
+    public boolean updateUser(UserDTO updateUserDTO) {
         boolean status = userRepository.existsById(updateUserDTO.id);
 
-        if(status){
+        if (status) {
             User userToUpdate = userRepository.findById(updateUserDTO.id).orElse(null);
             assert userToUpdate != null;
             userToUpdate.firstName = updateUserDTO.firstName;
@@ -80,9 +79,9 @@ public class UserService {
 
     }
 
-    public boolean deleteUser(String id){
+    public boolean deleteUser(String id) {
         boolean status = userRepository.existsById(id);
-        if(status)
+        if (status)
             userRepository.deleteById(id);
 
         return status;
