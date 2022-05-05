@@ -40,10 +40,27 @@ public class UserService {
     }
 
     public UserDTO addUser(UserDTO newUserDTO){
-        User newUser = new User(newUserDTO);
-        userRepository.save(newUser);
 
-        return new UserDTO(newUser);
+        if(!usernameExists(newUserDTO.username)){
+            User newUser = new User(newUserDTO);
+            userRepository.save(newUser);
+            return new UserDTO(newUser);
+        }
+        else
+            return null;
+
+    }
+
+    private boolean usernameExists(String username){
+        List<User> users = userRepository.findAll();
+        boolean usernameExists = false;
+
+        for(User user: users)
+            if (user.username.equals(username)) {
+                usernameExists = true;
+                break;
+            }
+        return usernameExists;
     }
 
     public boolean updateUser(UserDTO updateUserDTO){

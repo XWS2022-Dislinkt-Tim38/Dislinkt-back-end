@@ -37,9 +37,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO newUserDTO){
+    public ResponseEntity<Object> addUser(@RequestBody UserDTO newUserDTO){
         UserDTO user = userService.addUser(newUserDTO);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        if(user != null)
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        else
+            return new ResponseEntity<>("Username already exists!", HttpStatus.OK);
+
     }
 
     @PutMapping
