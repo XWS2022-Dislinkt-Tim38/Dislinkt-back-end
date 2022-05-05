@@ -26,6 +26,14 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/public")
+    public ResponseEntity<List<UserDTO>> getAllPublicProfiles() {
+
+        List<UserDTO> users = userService.getAllPublicProfiles();
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable String id){
 

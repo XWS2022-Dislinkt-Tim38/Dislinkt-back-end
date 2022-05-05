@@ -4,6 +4,9 @@ import com.example.userservice.dto.UserDTO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Column;
+import java.util.Date;
+
 
 @Document
 public class User {
@@ -12,14 +15,22 @@ public class User {
     public String id;
     public String firstName;
     public String lastName;
+    public String address;
+    public Date dateOfBirth;
+    public String biography;
+    public boolean isPublic;
     public String username;
     public String password;
 
     public User() {}
-    public User(String id, String firstName, String lastName, String username, String password) {
-        this.id = id;
+
+    public User(String firstName, String lastName, String address, Date dateOfBirth, String biography, boolean isPublic, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.biography = biography;
+        this.isPublic = isPublic;
         this.username = username;
         this.password = password;
     }
@@ -31,6 +42,11 @@ public class User {
         this.lastName = userDTO.lastName;
         this.username = userDTO.username;
         this.password = userDTO.password;
+        this.address = userDTO.address;
+        this.biography = userDTO.biography;
+        this.dateOfBirth = userDTO.dateOfBirth;
+        this.isPublic = userDTO.isPublic;
+
     }
 }
 

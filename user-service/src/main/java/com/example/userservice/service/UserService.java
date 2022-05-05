@@ -39,6 +39,18 @@ public class UserService {
         return usersDTO;
     }
 
+    public List<UserDTO> getAllPublicProfiles(){
+        List<User> users = userRepository.findAll();
+        List<UserDTO> usersDTO = new ArrayList<>();
+
+        for(User user : users){
+            if(user.isPublic)
+                usersDTO.add(new UserDTO(user));
+        }
+
+        return usersDTO;
+    }
+
     public UserDTO addUser(UserDTO newUserDTO){
 
         if(!usernameExists(newUserDTO.username)){
