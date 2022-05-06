@@ -30,12 +30,13 @@ public class User {
 
     public List<String> following;
     public List<String> followers;
-
+    public List<String> followRequests; //IDs of users that sent the request
     public User() {}
 
     public User(String firstName, String lastName,boolean isPublic, String username, String password,
                 Gender gender, Date dateOfBirth, String phoneNumber, String email,
                 String address, UserProfile profile ) {
+
         String id = java.util.UUID.randomUUID().toString();
         this.id = "user_" + id;
         this.firstName = firstName;
@@ -50,6 +51,7 @@ public class User {
         this.address = address;
         this.following = new ArrayList<>();
         this.followers = new ArrayList<>();
+        this.followRequests = new ArrayList<>();
         this.profile = profile;
 
     }
@@ -69,6 +71,7 @@ public class User {
         this.address = userDTO.address;
         this.following = new ArrayList<>();
         this.followers = new ArrayList<>();
+        this.followRequests = new ArrayList<>();
         this.profile = new UserProfile("", new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(),new ArrayList<>());
     }

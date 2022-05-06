@@ -78,4 +78,12 @@ public class UserController {
         String response = userService.followUser(subjectId, targetId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping(value = "/follow/manage")
+    public ResponseEntity<String> manageFollowRequest(@RequestParam (value = "subjectId") String subjectId,
+                                                      @RequestParam (value = "targetId") String targetId,
+                                                      @RequestParam (value = "followResponse") boolean followResponse){
+        String response = userService.manageRequest(subjectId, targetId, followResponse);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

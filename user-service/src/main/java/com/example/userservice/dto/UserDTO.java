@@ -23,6 +23,8 @@ public class UserDTO {
     public UserProfile profile;
     public List<String> followers;
     public List<String> following;
+    public List<String> followRequests;
+
 
     public UserDTO(){}
 
@@ -41,5 +43,6 @@ public class UserDTO {
         this.profile = user.profile;
         this.following = user.following;
         this.followers = user.followers;
+        this.followRequests = user.followRequests;
     }
 }
