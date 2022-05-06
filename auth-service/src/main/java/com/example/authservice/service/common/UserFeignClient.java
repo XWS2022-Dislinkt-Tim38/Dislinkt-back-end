@@ -1,13 +1,14 @@
-package com.example.postservice.service.common;
+package com.example.authservice.service.common;
 
-import com.example.postservice.dto.UserDTO;
+import com.example.authservice.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "userFeign", url = "http://localhost:8000")
 public interface UserFeignClient {
 
-    @GetMapping(value = "/user/{id}")
-    public UserDTO getUser(@PathVariable  String id);
+    @GetMapping(value = "/user/username")
+    public User getUserByUsername(@RequestParam String username);
 }
