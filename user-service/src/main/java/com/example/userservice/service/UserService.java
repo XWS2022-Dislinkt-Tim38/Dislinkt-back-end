@@ -83,6 +83,15 @@ public class UserService {
             userToUpdate.lastName = updateUserDTO.lastName;
             userToUpdate.username = updateUserDTO.username;
             userToUpdate.password = updateUserDTO.password;
+            userToUpdate.address = updateUserDTO.address;
+            userToUpdate.email = updateUserDTO.email;
+            userToUpdate.dateOfBirth = updateUserDTO.dateOfBirth;
+            userToUpdate.phoneNumber = updateUserDTO.phoneNumber;
+            userToUpdate.gender = updateUserDTO.gender;
+            userToUpdate.isPublic = updateUserDTO.isPublic;
+
+            userToUpdate.profile = updateUserDTO.profile;
+
             userRepository.save(userToUpdate);
         }
 
