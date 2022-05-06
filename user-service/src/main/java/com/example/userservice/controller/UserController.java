@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,21 +18,20 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false) boolean isPublic) {
 
-        List<UserDTO> users = userService.getAllUsers();
+        List<UserDTO> users = new ArrayList<UserDTO>();
+        System.out.println(isPublic);
 
+        if(isPublic) {
+            users = userService.getAllPublicProfiles();
+        }
+        else {
+            users = userService.getAllUsers();
+        }
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-
-    @GetMapping(value = "/public")
-    public ResponseEntity<List<UserDTO>> getAllPublicProfiles() {
-
-        List<UserDTO> users = userService.getAllPublicProfiles();
-
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
+    
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable String id){
 
