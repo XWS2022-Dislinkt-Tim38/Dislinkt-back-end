@@ -108,4 +108,26 @@ public class UserService {
 
     }
 
+    public String followUser(String subjectId, String targetId){
+        String response = "";
+        User target = userRepository.findById(targetId).orElse(null);
+        User follower = userRepository.findById(subjectId).orElse(null);
+
+        if(target == null) response = "User you want to follow cannot be found!";
+        else if (follower == null)  response = "User can not be found!";
+        else {
+
+            if(!target.isPublic){
+                //TODO: Kreiraj request
+            } else {
+                target.followers.add(subjectId);
+                follower.following.add(targetId);
+                userRepository.save(target);
+                userRepository.save(follower);
+                response = "You successfully followed " + target.username;
+            }
+        }
+        return response;
+    }
+
 }

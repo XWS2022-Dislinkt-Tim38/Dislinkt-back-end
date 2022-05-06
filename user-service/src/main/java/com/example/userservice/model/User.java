@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Document
@@ -27,11 +28,16 @@ public class User {
     public String address;
     public UserProfile profile;
 
+    public List<String> following;
+    public List<String> followers;
+
     public User() {}
 
     public User(String firstName, String lastName,boolean isPublic, String username, String password,
                 Gender gender, Date dateOfBirth, String phoneNumber, String email,
                 String address, UserProfile profile ) {
+        String id = java.util.UUID.randomUUID().toString();
+        this.id = "user_" + id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isPublic = isPublic;
@@ -42,6 +48,8 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
+        this.following = new ArrayList<>();
+        this.followers = new ArrayList<>();
         this.profile = profile;
 
     }
@@ -59,6 +67,8 @@ public class User {
         this.phoneNumber = userDTO.phoneNumber;
         this.email = userDTO.email;
         this.address = userDTO.address;
+        this.following = new ArrayList<>();
+        this.followers = new ArrayList<>();
         this.profile = new UserProfile("", new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(),new ArrayList<>());
     }

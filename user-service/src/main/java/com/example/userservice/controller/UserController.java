@@ -63,12 +63,19 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable String id){
+    public ResponseEntity<String> deleteUser(@PathVariable String id){
         boolean status = userService.deleteUser(id);
         if(status)
             return new ResponseEntity<>("User successfully deleted!", HttpStatus.OK);
         else
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
 
+    }
+
+    @PutMapping(value = "/follow")
+    public ResponseEntity<String> followUser(@RequestParam (value = "subjectId") String subjectId,
+                                             @RequestParam (value = "targetId") String targetId){
+        String response = userService.followUser(subjectId, targetId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
