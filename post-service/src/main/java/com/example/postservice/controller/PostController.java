@@ -1,7 +1,9 @@
 package com.example.postservice.controller;
 
 import com.example.postservice.dto.PostDTO;
+import com.example.postservice.dto.UserDTO;
 import com.example.postservice.service.PostService;
+import com.example.postservice.service.common.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserFeignClient userFeignClient;
+
     @GetMapping(value = "/test")
     public ResponseEntity<String> test() {
         return new ResponseEntity<>("* Controller is working *", HttpStatus.OK);
@@ -28,6 +33,16 @@ public class PostController {
         List<PostDTO> posts = postService.getAllPosts();
 
         return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/user/{postId}")
+    public ResponseEntity<Object> getUserByPost(@PathVariable String postId){
+        PostDTO postDTO = postService.getPost(postId);
+        UserDTO userDTO = userFeignClient.getUser(postDTO.ownerId);
+        if(userDTO != null)
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        else
+            return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/{ownerId}")
