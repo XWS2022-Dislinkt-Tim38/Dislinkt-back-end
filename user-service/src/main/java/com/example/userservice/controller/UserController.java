@@ -73,7 +73,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable String id){
+    public ResponseEntity<String> deleteUser(@PathVariable String id){
         boolean status = userService.deleteUser(id);
         if(status)
             return new ResponseEntity<>("User successfully deleted!", HttpStatus.OK);

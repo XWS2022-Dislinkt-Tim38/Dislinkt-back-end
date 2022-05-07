@@ -23,30 +23,6 @@ public class User implements UserDetails {
     public String username;
     public String password;
 
-    public String getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getBiography() {
-        return biography;
-    }
-
     public boolean isPublic() {
         return isPublic;
     }
@@ -84,40 +60,9 @@ public class User implements UserDetails {
         return password;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setBiography(String biography) {
-        this.biography = biography;
-    }
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public User() {}

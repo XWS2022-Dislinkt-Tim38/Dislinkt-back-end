@@ -74,18 +74,17 @@ public class UserService {
             return new UserDTO(newUser);
         } else
             return null;
-
     }
 
     private boolean usernameExists(String username) {
-        List<User> users = userRepository.findAll();
+        User user = userRepository.findByUsername(username);
         boolean usernameExists = false;
-
-        for (User user : users)
-            if (user.username.equals(username)) {
-                usernameExists = true;
-                break;
-            }
+        if(user == null){
+            usernameExists = false;
+        }
+        else {
+            usernameExists = true;
+        }
         return usernameExists;
     }
 
@@ -99,7 +98,7 @@ public class UserService {
             userToUpdate.firstName = updateUserDTO.firstName;
             userToUpdate.lastName = updateUserDTO.lastName;
             userToUpdate.username = updateUserDTO.username;
-            userToUpdate.password = updateUserDTO.password;
+            userToUpdate.password = passwordEncoder().encode(updateUserDTO.password);
             userToUpdate.address = updateUserDTO.address;
             userToUpdate.email = updateUserDTO.email;
             userToUpdate.dateOfBirth = updateUserDTO.dateOfBirth;

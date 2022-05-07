@@ -59,8 +59,7 @@ public class User {
         this.phoneNumber = userDTO.phoneNumber;
         this.email = userDTO.email;
         this.address = userDTO.address;
-        this.profile = new UserProfile("", new ArrayList<>(), new ArrayList<>(),
-                new ArrayList<>(),new ArrayList<>());
+        this.profile = userDTO.profile;
     }
 }
 
