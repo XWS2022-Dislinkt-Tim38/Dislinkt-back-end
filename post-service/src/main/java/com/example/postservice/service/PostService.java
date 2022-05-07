@@ -66,11 +66,70 @@ public class PostService {
             postToUpdate.dateEdited = new Date();
             postToUpdate.title = updatePostDTO.title;
             postToUpdate.content = updatePostDTO.content;
+            postToUpdate.image = updatePostDTO.image;
+            postToUpdate.link = updatePostDTO.link;
             postRepository.save(postToUpdate);
         }
 
         return status;
 
+    }
+
+    public boolean likePost(String postId, String userId) {
+        boolean status = postRepository.existsById(postId);
+        Post post = postRepository.findById(postId).orElse(null);
+        if(status){
+            if(!post.likes.contains(userId)) {
+                if(post.dislikes.contains(userId)){
+                    post.dislikes.remove(userId);
+                }
+                post.likes.add(userId);
+                postRepository.save(post);
+            }
+            else {
+                post.likes.remove(userId);
+                postRepository.save(post);
+            }
+        }
+
+        return status;
+    }
+
+    public boolean dislikePost(String postId, String userId) {
+        boolean status = postRepository.existsById(postId);
+        Post post = postRepository.findById(postId).orElse(null);
+        if(status){
+            if(!post.dislikes.contains(userId)) {
+                if(post.likes.contains(userId)){
+                    post.likes.remove(userId);
+                }
+                post.dislikes.add(userId);
+                postRepository.save(post);
+            }
+            else{
+                post.dislikes.remove(userId);
+                postRepository.save(post);
+            }
+        }
+
+        return status;
+    }
+
+    public boolean unreactOnPost(String postId, String userId) {
+        boolean status = postRepository.existsById(postId);
+        Post post = postRepository.findById(postId).orElse(null);
+        if(status){
+            if(post.dislikes.contains(userId)) {
+                post.dislikes.remove(userId);
+            }
+            if(post.likes.contains(userId)){
+                post.likes.remove(userId);
+            }
+
+            postRepository.save(post);
+        }
+
+        return status;
     }
 
     public boolean deletePost(String id) {
@@ -81,6 +140,5 @@ public class PostService {
         return status;
 
     }
-
 
 }

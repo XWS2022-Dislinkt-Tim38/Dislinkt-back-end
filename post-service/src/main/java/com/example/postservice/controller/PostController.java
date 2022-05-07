@@ -81,4 +81,22 @@ public class PostController {
             return new ResponseEntity<>("Post not found!", HttpStatus.NOT_FOUND);
 
     }
+
+    @PutMapping(value = "/like/{postId}")
+    public ResponseEntity<Object> likePost(@PathVariable String postId, @RequestParam String userId){
+        boolean status = postService.likePost(postId, userId);
+        if(status)
+            return new ResponseEntity<>("Post successfully liked!", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("There was an error while like operation!", HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping(value = "/dislike/{postId}")
+    public ResponseEntity<Object> dislikePost(@PathVariable String postId, @RequestParam String userId){
+        boolean status = postService.dislikePost(postId, userId);
+        if(status)
+            return new ResponseEntity<>("Post successfully disliked!", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("There was an error while dislike operation!", HttpStatus.BAD_REQUEST);
+    }
 }
