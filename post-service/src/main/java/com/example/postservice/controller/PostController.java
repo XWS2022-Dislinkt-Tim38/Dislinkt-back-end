@@ -1,7 +1,9 @@
 package com.example.postservice.controller;
 
+import com.example.postservice.dto.CommentDTO;
 import com.example.postservice.dto.PostDTO;
 import com.example.postservice.dto.UserDTO;
+import com.example.postservice.model.Comment;
 import com.example.postservice.service.PostService;
 import com.example.postservice.service.common.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,5 +100,11 @@ public class PostController {
             return new ResponseEntity<>("Post successfully disliked!", HttpStatus.OK);
         else
             return new ResponseEntity<>("There was an error while dislike operation!", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/comment")
+    public  ResponseEntity<Object> addComment(@RequestBody CommentDTO newCommentDTO, @RequestParam String postId, @RequestParam String userId){
+        CommentDTO comment = postService.addComment(newCommentDTO, postId, userId);
+        return new ResponseEntity<>(Objects.requireNonNullElse(comment, "Can not add comment!"), HttpStatus.OK);
     }
 }

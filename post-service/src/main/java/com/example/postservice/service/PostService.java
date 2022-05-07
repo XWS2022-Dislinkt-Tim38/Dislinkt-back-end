@@ -1,7 +1,10 @@
 package com.example.postservice.service;
 
+import com.example.postservice.dto.CommentDTO;
 import com.example.postservice.dto.PostDTO;
+import com.example.postservice.model.Comment;
 import com.example.postservice.model.Post;
+import com.example.postservice.repository.CommentRepository;
 import com.example.postservice.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     public PostDTO getPost(String id) {
         Post post = postRepository.findById(id).orElse(null);
@@ -115,21 +120,15 @@ public class PostService {
         return status;
     }
 
-    public boolean unreactOnPost(String postId, String userId) {
-        boolean status = postRepository.existsById(postId);
-        Post post = postRepository.findById(postId).orElse(null);
-        if(status){
-            if(post.dislikes.contains(userId)) {
-                post.dislikes.remove(userId);
-            }
-            if(post.likes.contains(userId)){
-                post.likes.remove(userId);
-            }
+    public CommentDTO addComment(CommentDTO newCommentDTO, String postId, String userId) {
 
-            postRepository.save(post);
-        }
-
-        return status;
+        Comment newComment = new Comment(newCommentDTO);
+        newComment.postId = postId;
+        newComment.userId = userId;
+        newComment.dateCreated = new Date();
+        newComment.dateEdited = new Date();
+        commentRepository.save(newComment);
+        return new CommentDTO(newComment);
     }
 
     public boolean deletePost(String id) {
