@@ -12,7 +12,12 @@ public class UserProfile {
     public List<Education> education;
     public List<WorkExperience> experience;
 
-    public UserProfile(){}
+    public UserProfile(){
+        this.skills = new ArrayList<>();
+        this.interests = new ArrayList<>();
+        this.education = new ArrayList<>();
+        this.experience = new ArrayList<>();
+    }
     public UserProfile(String biography, List<String> skills, List<String> interests,
                        List<Education> education,
                        List<WorkExperience> experience){

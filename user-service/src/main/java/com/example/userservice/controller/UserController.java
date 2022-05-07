@@ -81,4 +81,19 @@ public class UserController {
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
 
     }
+
+    @PutMapping(value = "/follow")
+    public ResponseEntity<String> followUser(@RequestParam (value = "subjectId") String subjectId,
+                                             @RequestParam (value = "targetId") String targetId){
+        String response = userService.followUser(subjectId, targetId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/follow/manage")
+    public ResponseEntity<String> manageFollowRequest(@RequestParam (value = "subjectId") String subjectId,
+                                                      @RequestParam (value = "targetId") String targetId,
+                                                      @RequestParam (value = "followResponse") boolean followResponse){
+        String response = userService.manageRequest(subjectId, targetId, followResponse);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

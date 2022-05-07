@@ -5,6 +5,7 @@ import com.example.userservice.model.UserProfile;
 import com.example.userservice.model.enums.Gender;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserDTO {
 
@@ -20,10 +21,12 @@ public class UserDTO {
     public String email;
     public String address;
     public UserProfile profile;
+    public List<String> followers;
+    public List<String> following;
+    public List<String> followRequests;
 
 
     public UserDTO(){}
-
 
     public UserDTO(User user){
         this.id = user.id;
@@ -38,5 +41,8 @@ public class UserDTO {
         this.email = user.email;
         this.address = user.address;
         this.profile = user.profile;
+        this.following = user.following;
+        this.followers = user.followers;
+        this.followRequests = user.followRequests;
     }
 }
