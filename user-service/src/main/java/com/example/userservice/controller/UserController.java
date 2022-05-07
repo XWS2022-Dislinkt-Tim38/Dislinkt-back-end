@@ -1,6 +1,7 @@
 package com.example.userservice.controller;
 
 import com.example.userservice.dto.UserDTO;
+import com.example.userservice.model.User;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,6 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false) boolean isPublic) {
 
         List<UserDTO> users = new ArrayList<UserDTO>();
-        System.out.println(isPublic);
 
         if(isPublic) {
             users = userService.getAllPublicProfiles();
@@ -31,13 +31,23 @@ public class UserController {
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-    
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable String id){
 
         UserDTO userDTO = userService.getUser(id);
         if(userDTO != null)
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        else
+            return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/username")
+    public ResponseEntity<Object> getUserByUsername(@RequestParam String username){
+
+        User user = userService.getUserByUsername(username);
+        if(user != null)
+            return new ResponseEntity<>(user, HttpStatus.OK);
         else
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
     }

@@ -4,6 +4,9 @@ import com.example.userservice.dto.UserDTO;
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,13 +18,26 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Bean
+    public PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
+
     public UserDTO getUser(String id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null)
             return new UserDTO(user);
         else
             return null;
+    }
 
+    public User getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null)
+            return user;
+        else
+            return null;
     }
 
 
@@ -52,6 +68,7 @@ public class UserService {
     public UserDTO addUser(UserDTO newUserDTO) {
 
         if (!usernameExists(newUserDTO.username)) {
+            newUserDTO.password = passwordEncoder().encode(newUserDTO.password);
             User newUser = new User(newUserDTO);
             userRepository.save(newUser);
             return new UserDTO(newUser);
