@@ -25,6 +25,7 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<UserTokenState> createAuthenticationToken(
             @RequestBody AuthenticationRequest authenticationRequest) {
