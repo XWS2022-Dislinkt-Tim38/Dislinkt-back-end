@@ -6,6 +6,7 @@ import com.example.userservice.model.VerificationToken;
 import com.example.userservice.repository.TokenRepository;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.validation.EmailValidator;
+import com.example.userservice.service.validation.UsernameValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,7 @@ public class UserService {
     private TokenRepository tokenRepository;
 
     private final EmailValidator emailValidator = new EmailValidator();
+    private final UsernameValidator usernameValidator = new UsernameValidator();
 
     public PasswordEncoder passwordEncoder()
     {
@@ -104,11 +106,15 @@ public class UserService {
 
     private void validate(UserDTO newUserDTO){
         String error = "";
-        if (usernameExists(newUserDTO.username) || emailExists((newUserDTO.email)))
-            error += "Username or Email already exists!\n";
 
         if(!emailValidator.test(newUserDTO.email))
             error += "E-mail not valid!\n";
+
+        if(!usernameValidator.test(newUserDTO.username))
+            error += "Username not valid!\n";
+
+        if (usernameExists(newUserDTO.username) || emailExists((newUserDTO.email)))
+            error += "Username or Email already exists!\n";
 
         //TODO: Password Validation
 

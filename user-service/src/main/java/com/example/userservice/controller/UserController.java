@@ -97,4 +97,9 @@ public class UserController {
         String response = userService.manageRequest(subjectId, targetId, followResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/admin")
+    public ResponseEntity<String> testAdminRole(){
+        return new ResponseEntity<>("This is Admin", HttpStatus.OK);
+    }
 }
