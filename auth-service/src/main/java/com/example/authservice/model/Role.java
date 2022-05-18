@@ -1,2 +1,7 @@
-package com.example.authservice.model;public class Role {
+package com.example.authservice.model;
+
+public enum Role {
+
+    ADMIN,
+    USER
 }

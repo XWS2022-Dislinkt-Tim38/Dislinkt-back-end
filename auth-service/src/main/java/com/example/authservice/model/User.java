@@ -3,10 +3,13 @@ package com.example.authservice.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 
 @Document
@@ -22,6 +25,10 @@ public class User implements UserDetails {
     public boolean isPublic;
     public String username;
     public String password;
+    public boolean isVerified;
+    public boolean isBlocked;
+
+    public Role role;
 
     public boolean isPublic() {
         return isPublic;
@@ -38,7 +45,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !isBlocked;
     }
 
     @Override
@@ -48,12 +55,15 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isVerified;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(this.role.toString());
+        authorities.add(grantedAuthority);
+        return authorities;
     }
 
     public String getPassword() {
