@@ -62,7 +62,7 @@ public class User {
         this.profile = profile;
         this.isBlocked = false;
         this.isVerified = false;
-        this.role = Role.user;
+        this.role = Role.USER;
 
     }
 
@@ -83,7 +83,7 @@ public class User {
         this.following = new ArrayList<>();
         this.followers = new ArrayList<>();
         this.followRequests = new ArrayList<>();
-
+        this.role = Role.USER;
         this.isVerified = false;
         this.isBlocked = false;
     }

@@ -2,15 +2,16 @@ package com.example.userservice.service;
 
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.model.User;
+import com.example.userservice.model.VerificationToken;
+import com.example.userservice.repository.TokenRepository;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.validation.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,10 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TokenRepository tokenRepository;
 
-    private EmailValidator emailValidator = new EmailValidator();
+    private final EmailValidator emailValidator = new EmailValidator();
 
     public PasswordEncoder passwordEncoder()
     {
@@ -78,37 +81,41 @@ public class UserService {
 
         User newUser = new User(newUserDTO);
         userRepository.save(newUser);
+
+        //EmailConfirmation
+        VerificationToken verificationToken = new VerificationToken(
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                newUser);
+
+        tokenRepository.save(verificationToken);
+
+        //TODO: Send E-mail
+
         return new UserDTO(newUser);
 
     }
 
     private void validate(UserDTO newUserDTO){
         String error = "";
-        if (usernameExists(newUserDTO.username))
-            error += "Username already exists!\n";
+        if (usernameExists(newUserDTO.username) || emailExists((newUserDTO.email)))
+            error += "Username or Email already exists!\n";
 
         if(!emailValidator.test(newUserDTO.email))
             error += "E-mail not valid!\n";
 
-        if(emailExists(newUserDTO.email))
-            error += "E-mail already exists!\n";
+        //TODO: Password Validation
 
         if(!error.equals(""))
             throw new IllegalStateException("\n" + error);
     }
 
     private boolean usernameExists(String username) {
-        if(userRepository.findByUsername(username) != null)
-            return true;
-        else
-            return false;
+        return userRepository.findByUsername(username) != null;
     }
 
     private boolean emailExists(String email) {
-        if(userRepository.findByEmail(email) != null)
-            return true;
-        else
-            return false;
+        return userRepository.findByEmail(email) != null;
     }
 
 
