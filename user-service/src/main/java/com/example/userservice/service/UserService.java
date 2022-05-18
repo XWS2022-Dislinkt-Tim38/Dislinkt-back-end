@@ -21,7 +21,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private TokenService tokenService;
+    private TokenRepository tokenRepository;
 
     private final EmailValidator emailValidator = new EmailValidator();
 
@@ -88,12 +88,18 @@ public class UserService {
                 LocalDateTime.now().plusMinutes(15),
                 newUser);
 
-        tokenService.saveToken(verificationToken);
+        tokenRepository.save(verificationToken);
 
         //TODO: Send E-mail
 
         return new UserDTO(newUser);
 
+    }
+
+    public void enableUser(String id){
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalStateException("Token not found!"));
+        user.isVerified = true;
+        userRepository.save(user);
     }
 
     private void validate(UserDTO newUserDTO){
