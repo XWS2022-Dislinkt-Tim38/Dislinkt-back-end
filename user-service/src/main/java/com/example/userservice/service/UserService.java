@@ -21,7 +21,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private TokenRepository tokenRepository;
+    private TokenService tokenService;
 
     private final EmailValidator emailValidator = new EmailValidator();
 
@@ -88,7 +88,7 @@ public class UserService {
                 LocalDateTime.now().plusMinutes(15),
                 newUser);
 
-        tokenRepository.save(verificationToken);
+        tokenService.saveToken(verificationToken);
 
         //TODO: Send E-mail
 
