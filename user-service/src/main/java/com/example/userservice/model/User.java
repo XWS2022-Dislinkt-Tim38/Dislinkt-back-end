@@ -2,6 +2,7 @@ package com.example.userservice.model;
 
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.model.enums.Gender;
+import com.example.userservice.model.enums.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,12 +11,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 @Document
 public class User {
 
     @Id
     public String id;
+
+    public Role role;
     public String firstName;
     public String lastName;
     public boolean isPublic;
@@ -26,6 +28,11 @@ public class User {
     public String phoneNumber;
     public String email;
     public String address;
+
+    //Validation & Verification fields
+    public boolean isVerified;
+    public boolean isBlocked;
+    private String verificationCode;
     public UserProfile profile;
 
     public List<String> following;
@@ -53,6 +60,9 @@ public class User {
         this.followers = new ArrayList<>();
         this.followRequests = new ArrayList<>();
         this.profile = profile;
+        this.isBlocked = false;
+        this.isVerified = false;
+        this.role = Role.user;
 
     }
 
@@ -73,6 +83,9 @@ public class User {
         this.following = new ArrayList<>();
         this.followers = new ArrayList<>();
         this.followRequests = new ArrayList<>();
+
+        this.isVerified = false;
+        this.isBlocked = false;
     }
 }
 

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> addUser(@RequestBody UserDTO newUserDTO){
+    public ResponseEntity<Object> addUser(@RequestBody UserDTO newUserDTO) throws NoSuchAlgorithmException {
         UserDTO user = userService.addUser(newUserDTO);
         if(user != null)
             return new ResponseEntity<>(user, HttpStatus.OK);
