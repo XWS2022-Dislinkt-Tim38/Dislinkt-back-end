@@ -20,7 +20,7 @@ public class TokenController {
     TokenService tokenService;
 
     @GetMapping
-    public ResponseEntity<String> getAllUsers(@RequestParam(value = "tokenID") String tokenId) {
+    public ResponseEntity<String> confirmToken(@RequestParam(value = "tokenID") String tokenId) {
         String response = tokenService.verifyToken(tokenId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

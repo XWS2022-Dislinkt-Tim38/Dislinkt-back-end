@@ -38,6 +38,6 @@ public class TokenService {
 
         verificationToken.confirmedAt = LocalDateTime.now();
         tokenRepository.save(verificationToken);
-        return "confirmed";
+        return "Your E-mail has been successfully verified!";
     }
 }
