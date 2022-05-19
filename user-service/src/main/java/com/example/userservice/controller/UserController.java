@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping
-    public ResponseEntity<Object> addUser(@RequestBody UserDTO newUserDTO) throws NoSuchAlgorithmException {
+    public ResponseEntity<Object> addUser(@Valid @RequestBody UserDTO newUserDTO) throws NoSuchAlgorithmException {
         UserDTO user = userService.addUser(newUserDTO);
         if(user != null)
             return new ResponseEntity<>(user, HttpStatus.OK);

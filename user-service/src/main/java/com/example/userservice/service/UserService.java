@@ -97,9 +97,6 @@ public class UserService {
     private void validate(UserDTO newUserDTO){
         String error = "";
 
-        if(!emailValidator.test(newUserDTO.email))
-            error += "E-mail not valid!\n";
-
         if(!usernameValidator.test(newUserDTO.username))
             error += "Username not valid!\n";
 

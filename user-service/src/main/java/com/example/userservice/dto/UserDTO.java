@@ -4,21 +4,32 @@ import com.example.userservice.model.User;
 import com.example.userservice.model.UserProfile;
 import com.example.userservice.model.enums.Gender;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 import java.util.List;
 
 public class UserDTO {
 
     public String id;
+    @NotBlank
+    @Pattern(regexp = "^[A-Za-z ]+")
     public String firstName;
+    @NotBlank
+    @Pattern(regexp = "^[A-Za-z ]*")
     public String lastName;
     public boolean isPublic;
+    @Pattern(regexp = "^[A-Za-z0-9.]+")
     public String username;
     public String password;
     public Gender gender;
     public Date dateOfBirth;
+    @NotBlank
     public String phoneNumber;
+    @Email
     public String email;
+    @NotBlank
     public String address;
     public UserProfile profile;
     public List<String> followers;
