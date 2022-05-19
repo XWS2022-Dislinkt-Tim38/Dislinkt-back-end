@@ -49,6 +49,14 @@ public class UserService {
             return null;
     }
 
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null)
+            return user;
+        else
+            return null;
+    }
+
 
     public List<UserDTO> getAllUsers() {
 
@@ -137,6 +145,22 @@ public class UserService {
                 confirmationLink + " \n(Expires in 15 minutes)\n Regards, Dislinkt";
 
         emailService.send(newUser.email, emailContent);
+    }
+
+    public void resetPasswordRequest(User user){
+
+        VerificationToken verificationToken = new VerificationToken(
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                user.id);
+        tokenRepository.save(verificationToken);
+
+        //finish path
+        String newPasswordLink = "http://localhost:8000/user/  " + verificationToken.token;
+        String emailContent = "Dear " + user.firstName +
+                ", click on the link below to change your password: \n" +
+                newPasswordLink + " \n(Expires in 15 minutes)\n Regards, Dislinkt";
+        emailService.send(user.email, emailContent);
     }
 
     public boolean updateUser(UserDTO updateUserDTO) {

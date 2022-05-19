@@ -28,4 +28,16 @@ public class VerificationToken {
         this.confirmedAt = null;
         this.user = user;
     }
+
+    public VerificationToken(LocalDateTime createdAt,
+                             LocalDateTime expiresAt,
+                             String idUser) {
+        String id = java.util.UUID.randomUUID().toString();
+        this.id = "token_" + id;
+        this.token = java.util.UUID.randomUUID().toString();
+        this.createdAt = createdAt;
+        this.expiresAt = expiresAt;
+        this.confirmedAt = null;
+        this.user = user;
+    }
 }

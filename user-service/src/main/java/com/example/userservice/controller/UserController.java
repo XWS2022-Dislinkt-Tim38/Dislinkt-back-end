@@ -67,6 +67,14 @@ public class UserController {
 
     }
 
+    @PostMapping(value = "/passwordRecovery")
+    public ResponseEntity<String> resetPasswordRequest(@RequestParam String email) {
+        User user = userService.getUserByEmail(email);
+
+        userService.resetPasswordRequest(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping
     public ResponseEntity<Object> updateUser(@RequestBody UserDTO editUserDTO){
         boolean status = userService.updateUser(editUserDTO);
