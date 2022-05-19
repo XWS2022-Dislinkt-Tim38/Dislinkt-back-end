@@ -53,6 +53,7 @@ public class UserController {
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
     }
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<Object> addUser(@RequestBody UserDTO newUserDTO) throws NoSuchAlgorithmException {
         UserDTO user = userService.addUser(newUserDTO);
