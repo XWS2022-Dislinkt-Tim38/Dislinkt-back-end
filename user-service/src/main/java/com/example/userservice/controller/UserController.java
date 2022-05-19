@@ -2,6 +2,7 @@ package com.example.userservice.controller;
 
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.model.User;
+import com.example.userservice.service.FollowingService;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private FollowingService followingService;
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false) boolean isPublic) {
@@ -87,7 +90,7 @@ public class UserController {
     @PutMapping(value = "/follow")
     public ResponseEntity<String> followUser(@RequestParam (value = "subjectId") String subjectId,
                                              @RequestParam (value = "targetId") String targetId){
-        String response = userService.followUser(subjectId, targetId);
+        String response = followingService.followUser(subjectId, targetId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -95,7 +98,7 @@ public class UserController {
     public ResponseEntity<String> manageFollowRequest(@RequestParam (value = "subjectId") String subjectId,
                                                       @RequestParam (value = "targetId") String targetId,
                                                       @RequestParam (value = "followResponse") boolean followResponse){
-        String response = userService.manageRequest(subjectId, targetId, followResponse);
+        String response = followingService.manageRequest(subjectId, targetId, followResponse);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

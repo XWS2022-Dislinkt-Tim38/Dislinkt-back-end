@@ -23,7 +23,6 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private TokenRepository tokenRepository;
-
     private final EmailValidator emailValidator = new EmailValidator();
     @Autowired
     private final EmailService emailService = new EmailService();
@@ -86,28 +85,15 @@ public class UserService {
         User newUser = new User(newUserDTO);
         userRepository.save(newUser);
 
-        //EmailConfirmation
-        VerificationToken verificationToken = new VerificationToken(
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
-                newUser);
-
-        tokenRepository.save(verificationToken);
-
-        //TODO: Send E-mail
-        String confirmationLink = "http://localhost:8080/token?tokenID=" + verificationToken.token;
-        emailService.send(newUserDTO.email, confirmationLink);
-
+        sendVerification(newUser);
         return new UserDTO(newUser);
 
     }
-
     public void enableUser(String id){
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalStateException("Token not found!"));
         user.isVerified = true;
         userRepository.save(user);
     }
-
     private void validate(UserDTO newUserDTO){
         String error = "";
 
@@ -134,6 +120,24 @@ public class UserService {
         return userRepository.findByEmail(email) != null;
     }
 
+    private void sendVerification(User newUser){
+        //EmailConfirmation
+        VerificationToken verificationToken = new VerificationToken(
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                newUser);
+
+        tokenRepository.save(verificationToken);
+
+        //TODO: Send E-mail
+        String confirmationLink = "http://localhost:8000/token?tokenID=" + verificationToken.token;
+        //String emailContent = buildEmail(newUser.firstName, confirmationLink);
+        String emailContent = "Dear " + newUser.firstName +
+                ", please verify your account by following the link below: \n" +
+                confirmationLink + " \n(Expires in 15 minutes)\n Regards, Dislinkt";
+
+        emailService.send(newUser.email, emailContent);
+    }
 
     public boolean updateUser(UserDTO updateUserDTO) {
         boolean status = userRepository.existsById(updateUserDTO.id);
@@ -168,62 +172,6 @@ public class UserService {
 
         return status;
 
-    }
-
-    public String followUser(String subjectId, String targetId){
-        String response = "";
-        User target = userRepository.findById(targetId).orElse(null);
-        User subject = userRepository.findById(subjectId).orElse(null);
-
-        if(target == null) response = "User you want to follow cannot be found!";
-        else if (subject == null)  response = "User can not be found!";
-        else {
-
-            if(!target.isPublic){
-                target.followRequests.add(subjectId);
-                userRepository.save(target);
-                response = "Request to follow " + target.username + " is pending...";
-            } else {
-
-                addFollower(subject, target);
-                response = "You successfully followed " + target.username;
-            }
-        }
-        return response;
-    }
-
-    //Subject: The user that sent the request
-    //Target: The user subject wants to follow
-    public String manageRequest(String subjectId, String targetId, boolean response){
-        String responseMessage = "";
-        User target = userRepository.findById(targetId).orElse(null);
-        User subject = userRepository.findById(subjectId).orElse(null);
-        assert target != null;
-        assert subject != null;
-
-        if(response){
-
-            target.followRequests.remove(subjectId);
-            addFollower(subject, target);
-            responseMessage = subject.username + " is now following you";
-            //TODO: Informisati korisnika da mu je zahtev odobren - Poruke/notifikacije
-        }
-        else{
-
-            target.followRequests.remove(subjectId);
-            userRepository.save(target);
-            responseMessage = "You declined request of " + subject.username + " :(";
-        }
-
-        return responseMessage;
-    }
-
-    private void addFollower(User subject, User target){
-
-        target.followers.add(subject.id);
-        subject.following.add(target.id);
-        userRepository.save(target);
-        userRepository.save(subject);
     }
 
     private String buildEmail(String name, String link) {
