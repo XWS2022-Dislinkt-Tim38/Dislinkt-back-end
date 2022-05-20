@@ -13,24 +13,38 @@ import java.util.List;
 public class UserDTO {
 
     public String id;
-    @NotBlank
-    @Pattern(regexp = "^[A-Za-z ]+")
+
+    @Pattern(regexp = "^[A-Z][A-za-z ]{1,15}")
     public String firstName;
-    @NotBlank
-    @Pattern(regexp = "^[A-Za-z ]*")
+
+
+    @Pattern(regexp = "^[A-Z][A-za-z ]{1,15}")
     public String lastName;
     public boolean isPublic;
-    @Pattern(regexp = "^[A-Za-z0-9.]+")
+
+
+    @Pattern(regexp = "[a-zA-Z0-9.]{4,9}$")
     public String username;
+
+
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$")
     public String password;
+
     public Gender gender;
     public Date dateOfBirth;
-    @NotBlank
+
+
+    @Pattern(regexp = "[0-9]{6,12}")
     public String phoneNumber;
+
+
     @Email
     public String email;
-    @NotBlank
+
+
+    @Pattern(regexp = "[a-zA-Z0-9 ]{4,20}$")
     public String address;
+
     public UserProfile profile;
     public List<String> followers;
     public List<String> following;
