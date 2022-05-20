@@ -103,8 +103,13 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/admin")
+    @GetMapping(value = "role/testadmin")
     public ResponseEntity<String> testAdminRole(){
-        return new ResponseEntity<>("This is Admin", HttpStatus.OK);
+        return new ResponseEntity<>("This is ADMIN", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "role/testuser")
+    public ResponseEntity<String> testUserRole(){
+        return new ResponseEntity<>("This is USER", HttpStatus.OK);
     }
 }
