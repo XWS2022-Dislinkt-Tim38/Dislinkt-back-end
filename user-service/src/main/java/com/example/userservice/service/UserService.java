@@ -129,9 +129,7 @@ public class UserService {
         //TODO: Send E-mail
         String confirmationLink = "http://localhost:8000/token?tokenID=" + verificationToken.token;
         //String emailContent = buildEmail(newUser.firstName, confirmationLink);
-        String emailContent = "Dear " + newUser.firstName +
-                ", please verify your account by following the link below: \n" +
-                confirmationLink + " \n(Expires in 15 minutes)\n Regards, Dislinkt";
+        String emailContent = buildEmail(newUser.firstName, confirmationLink);
 
         emailService.send(newUser.email, emailContent);
     }
