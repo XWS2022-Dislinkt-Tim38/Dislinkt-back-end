@@ -1,5 +1,6 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.PasswordRecoveryDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.model.User;
 import com.example.userservice.service.FollowingService;
@@ -78,6 +79,17 @@ public class UserController {
         }
         System.out.println("Nije ga nasao");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/changePassword")
+    public ResponseEntity<Object> changePassword(@RequestBody PasswordRecoveryDTO changePasswordDTO){
+
+        boolean status = userService.changePassword(changePasswordDTO);
+        if(status)
+            return new ResponseEntity<>("Password successfully changed", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("There was an error while changing!", HttpStatus.BAD_REQUEST);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

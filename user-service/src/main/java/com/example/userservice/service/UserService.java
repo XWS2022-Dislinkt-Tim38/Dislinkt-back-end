@@ -1,5 +1,6 @@
 package com.example.userservice.service;
 
+import com.example.userservice.dto.PasswordRecoveryDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.model.User;
 import com.example.userservice.model.VerificationToken;
@@ -56,7 +57,6 @@ public class UserService {
         else
             return null;
     }
-
 
     public List<UserDTO> getAllUsers() {
 
@@ -130,7 +130,7 @@ public class UserService {
         VerificationToken verificationToken = new VerificationToken(
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
-                newUser);
+                newUser.id);
 
         tokenRepository.save(verificationToken);
 
@@ -156,6 +156,39 @@ public class UserService {
 
         emailService.send(user.email, emailContent);
     }
+
+    public boolean changePassword(PasswordRecoveryDTO changePasswordDTO){
+
+        boolean status = false;
+        VerificationToken foundToken = tokenRepository.findTokenById(changePasswordDTO.tokenId);
+
+        if(foundToken != null) {
+            if (foundToken.confirmedAt != null) {
+                throw new IllegalStateException("link expired/used");
+            }
+
+            LocalDateTime expiredAt = foundToken.expiresAt;
+
+            if (expiredAt.isBefore(LocalDateTime.now())) {
+                throw new IllegalStateException("link expired");
+            }
+
+            foundToken.confirmedAt = LocalDateTime.now();
+            String idUser = foundToken.idUser;
+            User user = userRepository.findById(idUser).orElse(null);
+            user.password = passwordEncoder().encode(changePasswordDTO.newPassword);
+            userRepository.save(user);
+            tokenRepository.delete(foundToken);
+            status = true;
+
+        }else{
+            throw new IllegalStateException("Token doesn't exist");
+        }
+
+        return status;
+    }
+
+
 
     public boolean updateUser(UserDTO updateUserDTO) {
         boolean status = userRepository.existsById(updateUserDTO.id);
