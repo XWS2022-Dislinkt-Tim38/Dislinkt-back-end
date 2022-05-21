@@ -17,7 +17,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -58,24 +60,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/user/username").permitAll()
                 .antMatchers("/user/role/testadmin").hasAuthority("ADMIN")
                 .antMatchers("/user/role/testuser").hasAnyAuthority("USER")
 
-                .anyRequest().authenticated().and()
+                .anyRequest().authenticated()
+                .and()
+                .cors()
+                .and()
 
-                .cors().and()
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService), BasicAuthenticationFilter.class);
-
         http.csrf().disable();
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.POST, "/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/user/{id}");
         web.ignoring().antMatchers(HttpMethod.GET, "/user");
-        web.ignoring().antMatchers(HttpMethod.POST, "/user");
-        web.ignoring().antMatchers(HttpMethod.PUT, "/user");
+        web.ignoring().antMatchers(HttpMethod.PUT, "/**");
         web.ignoring().antMatchers(HttpMethod.DELETE, "/user/{id}");
         web.ignoring().antMatchers(HttpMethod.GET, "/token/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "favicon.ico", "/**/*.html",
