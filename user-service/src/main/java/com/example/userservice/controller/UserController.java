@@ -67,6 +67,19 @@ public class UserController {
             return new ResponseEntity<>("Username already exists!", HttpStatus.OK);
 
     }
+
+    @CrossOrigin
+    @PostMapping(value = "/resetPasswordRequest")
+    public ResponseEntity<String> resetPasswordRequest(@RequestBody String email) {
+        User user = userService.getUserByEmail(email);
+        if(user != null){
+            userService.saveTokenAndSendEmail(user);
+            return new ResponseEntity<>("Email sent!",HttpStatus.OK);
+        }
+        System.out.println("Nije ga nasao");
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping
     public ResponseEntity<Object> updateUser(@RequestBody UserDTO editUserDTO){

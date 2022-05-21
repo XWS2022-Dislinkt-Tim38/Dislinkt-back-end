@@ -49,6 +49,14 @@ public class UserService {
             return null;
     }
 
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null)
+            return user;
+        else
+            return null;
+    }
+
 
     public List<UserDTO> getAllUsers() {
 
@@ -132,6 +140,21 @@ public class UserService {
         String emailContent = buildEmail(newUser.firstName, confirmationLink);
 
         emailService.send(newUser.email, emailContent);
+    }
+
+    public void saveTokenAndSendEmail(User user){
+        VerificationToken verificationToken = new VerificationToken(
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                user.id);
+        tokenRepository.save(verificationToken);
+        //TODO: Send E-mail
+        String resetPasswordLink = "http://localhost:4200/password-recovery/" + verificationToken.id;
+        String emailContent = "Dear " + user.firstName +
+                ", please click on the link below to reset your password: \n" +
+                resetPasswordLink + " \n(Expires in 15 minutes)\n Regards, Dislinkt";
+
+        emailService.send(user.email, emailContent);
     }
 
     public boolean updateUser(UserDTO updateUserDTO) {
