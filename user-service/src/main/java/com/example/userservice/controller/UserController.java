@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/user")
 public class UserController {
 
@@ -57,7 +58,6 @@ public class UserController {
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
     }
 
-    @CrossOrigin
     @PostMapping
     public ResponseEntity<Object> addUser(@Valid @RequestBody UserDTO newUserDTO) throws NoSuchAlgorithmException {
         UserDTO user = userService.addUser(newUserDTO);
@@ -67,7 +67,7 @@ public class UserController {
             return new ResponseEntity<>("Username already exists!", HttpStatus.OK);
 
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping
     public ResponseEntity<Object> updateUser(@RequestBody UserDTO editUserDTO){
         boolean status = userService.updateUser(editUserDTO);
@@ -103,8 +103,13 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/admin")
+    @GetMapping(value = "role/testadmin")
     public ResponseEntity<String> testAdminRole(){
-        return new ResponseEntity<>("This is Admin", HttpStatus.OK);
+        return new ResponseEntity<>("This is ADMIN", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "role/testuser")
+    public ResponseEntity<String> testUserRole(){
+        return new ResponseEntity<>("This is USER", HttpStatus.OK);
     }
 }

@@ -1,10 +1,10 @@
-package com.example.authservice.config;
+package com.example.authservice.security.config;
 
 
-import com.example.authservice.security.RestAuthenticationEntryPoint;
-import com.example.authservice.security.TokenAuthenticationFilter;
+import com.example.authservice.security.auth.RestAuthenticationEntryPoint;
+import com.example.authservice.security.auth.TokenAuthenticationFilter;
 import com.example.authservice.service.CustomUserDetailsService;
-import com.example.authservice.util.TokenUtils;
+import com.example.authservice.security.util.TokenUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -60,6 +60,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 .authorizeRequests().antMatchers("/auth/login").permitAll()
+                .antMatchers("/auth/admin").hasAuthority("ADMIN")
+                .antMatchers("/auth/user").hasAnyAuthority("USER", "ADMIN")
 
                 .anyRequest().authenticated().and()
 

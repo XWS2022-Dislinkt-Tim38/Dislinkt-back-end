@@ -1,4 +1,4 @@
-package com.example.authservice.security;
+package com.example.userservice.security.auth;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;

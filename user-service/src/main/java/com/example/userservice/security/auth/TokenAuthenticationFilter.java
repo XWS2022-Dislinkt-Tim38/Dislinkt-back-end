@@ -1,13 +1,11 @@
-package com.example.authservice.security;
+package com.example.userservice.security.auth;
 
 import java.io.IOException;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.example.authservice.util.TokenUtils;
+import com.example.userservice.security.util.TokenUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
