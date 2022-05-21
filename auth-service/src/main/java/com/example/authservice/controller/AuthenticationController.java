@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/auth")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class AuthenticationController {
 
     @Autowired
@@ -39,13 +39,15 @@ public class AuthenticationController {
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
     }
 
-    @GetMapping("/admin")
-    public ResponseEntity<String> testAdmin(){
-        return new ResponseEntity<String>("This is admin", HttpStatus.OK);
+    @CrossOrigin
+    @GetMapping("role/testadmin")
+    public ResponseEntity<Boolean> testAdmin(){
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<String> testUser(){
-        return new ResponseEntity<String>("Hi this is USER", HttpStatus.OK);
+    @CrossOrigin
+    @GetMapping("role/testuser")
+    public ResponseEntity<Boolean> testUser(){
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
