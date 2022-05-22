@@ -116,7 +116,7 @@ public class UserController {
     @PostMapping("/passwordless")
     public ResponseEntity<Boolean> sendEmailForPasswordlessLogin( @RequestBody String email){
         Boolean response = userService.sendEmailPasswordlessLogin(email);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin
