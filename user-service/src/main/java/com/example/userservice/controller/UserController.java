@@ -87,9 +87,9 @@ public class UserController {
 
         boolean status = userService.changePassword(changePasswordDTO);
         if(status)
-            return new ResponseEntity<>("Password successfully changed", HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         else
-            return new ResponseEntity<>("There was an error while changing!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

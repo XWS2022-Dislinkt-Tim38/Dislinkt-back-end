@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/token")
 public class TokenController {
 
@@ -23,7 +24,8 @@ public class TokenController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/recovery/{tokenId}")
+    @CrossOrigin
+    @GetMapping(value = "/recovery/{tokenID}")
     public ResponseEntity<Boolean> checkIfTokenExpired(@RequestParam(value = "tokenID") String tokenId) {
        Boolean response = tokenService.isExpired(tokenId);
         return new ResponseEntity<>(response, HttpStatus.OK);
