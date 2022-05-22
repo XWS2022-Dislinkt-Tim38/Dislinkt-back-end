@@ -5,7 +5,6 @@ import com.example.userservice.model.UserProfile;
 import com.example.userservice.model.enums.Gender;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
 import java.util.List;
