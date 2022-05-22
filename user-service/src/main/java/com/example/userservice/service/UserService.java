@@ -1,5 +1,6 @@
 package com.example.userservice.service;
 
+import com.example.userservice.dto.PasswordRecoveryDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.model.User;
 import com.example.userservice.model.VerificationToken;
@@ -49,6 +50,13 @@ public class UserService {
             return null;
     }
 
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null)
+            return user;
+        else
+            return null;
+    }
 
     public List<UserDTO> getAllUsers() {
 
@@ -134,6 +142,54 @@ public class UserService {
         emailService.send(newUser.email, emailContent);
     }
 
+    public void saveTokenAndSendEmail(User user){
+        VerificationToken verificationToken = new VerificationToken(
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                user.id);
+        tokenRepository.save(verificationToken);
+        //TODO: Send E-mail
+        String resetPasswordLink = "http://localhost:4200/password-recovery/" + verificationToken.id;
+        String emailContent = "Dear " + user.firstName +
+                ", please click on the link below to reset your password: \n" +
+                resetPasswordLink + " \n(Expires in 15 minutes)\n Regards, Dislinkt";
+
+        emailService.send(user.email, emailContent);
+    }
+
+    public boolean changePassword(PasswordRecoveryDTO changePasswordDTO){
+
+        boolean status = false;
+        VerificationToken foundToken = tokenRepository.findTokenById(changePasswordDTO.tokenId);
+
+        if(foundToken != null) {
+            if (foundToken.confirmedAt != null) {
+                throw new IllegalStateException("link expired/used");
+            }
+
+            LocalDateTime expiredAt = foundToken.expiresAt;
+
+            if (expiredAt.isBefore(LocalDateTime.now())) {
+                throw new IllegalStateException("link expired");
+            }
+
+            foundToken.confirmedAt = LocalDateTime.now();
+            String idUser = foundToken.idUser;
+            User user = userRepository.findById(idUser).orElse(null);
+            user.password = passwordEncoder().encode(changePasswordDTO.newPassword);
+            userRepository.save(user);
+            tokenRepository.delete(foundToken);
+            status = true;
+
+        }else{
+            throw new IllegalStateException("Token doesn't exist");
+        }
+
+        return status;
+    }
+
+
+
     public boolean updateUser(UserDTO updateUserDTO) {
         boolean status = userRepository.existsById(updateUserDTO.id);
 
@@ -195,7 +251,7 @@ public class UserService {
         VerificationToken verificationToken = tokenRepository.findByToken(token);
 
         validateToken(verificationToken);
-        User user = userRepository.findById(verificationToken.userId).orElse(null);
+        User user = userRepository.findById(verificationToken.idUser).orElse(null);
         tokenRepository.delete(verificationToken);
 
         return user;
