@@ -34,7 +34,7 @@ public class TokenService {
 
         verificationToken.confirmedAt = LocalDateTime.now();
         userService.enableUser(
-                verificationToken.user.id);
+                verificationToken.userId);
 
         verificationToken.confirmedAt = LocalDateTime.now();
         tokenRepository.save(verificationToken);

@@ -15,17 +15,17 @@ public class VerificationToken {
     public LocalDateTime expiresAt;
     public LocalDateTime confirmedAt;
 
-    public User user;
+    public String userId;
 
     public VerificationToken(LocalDateTime createdAt,
                              LocalDateTime expiresAt,
-                             User user) {
+                             String userId) {
         String id = java.util.UUID.randomUUID().toString();
         this.id = "token_" + id;
         this.token = java.util.UUID.randomUUID().toString();
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
         this.confirmedAt = null;
-        this.user = user;
+        this.userId = userId;
     }
 }

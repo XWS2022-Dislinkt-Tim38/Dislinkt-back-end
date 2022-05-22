@@ -104,12 +104,25 @@ public class UserController {
     }
 
     @GetMapping(value = "role/testadmin")
-    public ResponseEntity<String> testAdminRole(){
-        return new ResponseEntity<>("This is ADMIN", HttpStatus.OK);
+    public ResponseEntity<Boolean> testAdminRole(){
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @GetMapping(value = "role/testuser")
-    public ResponseEntity<String> testUserRole(){
-        return new ResponseEntity<>("This is USER", HttpStatus.OK);
+    public ResponseEntity<Boolean> testUserRole(){
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+    @CrossOrigin
+    @PostMapping("/passwordless")
+    public ResponseEntity<Boolean> sendEmailForPasswordlessLogin( @RequestBody String email){
+        Boolean response = userService.sendEmailPasswordlessLogin(email);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("/getByTokenId/token")
+    public ResponseEntity<User> getUserByTokenId( @RequestParam String token){
+        User user = userService.getUserByTokenId(token);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

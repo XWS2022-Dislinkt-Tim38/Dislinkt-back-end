@@ -4,6 +4,7 @@ import com.example.authservice.dto.AuthenticationRequest;
 import com.example.authservice.dto.UserTokenState;
 import com.example.authservice.model.User;
 import com.example.authservice.security.util.TokenUtils;
+import com.example.authservice.service.common.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,8 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private UserFeignClient userFeignClient;
 
     @PostMapping("/login")
     public ResponseEntity<UserTokenState> createAuthenticationToken(
@@ -39,15 +42,15 @@ public class AuthenticationController {
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
     }
 
-    @CrossOrigin
-    @GetMapping("role/testadmin")
-    public ResponseEntity<Boolean> testAdmin(){
-        return new ResponseEntity<>(true, HttpStatus.OK);
+    @PostMapping("/passwordlesslogin")
+    public ResponseEntity<UserTokenState> passwordlessLogin(
+            @RequestBody String token) {
+
+
+        User userByToken = userFeignClient.getUserByTokenId(token);
+        String jwt = tokenUtils.generateToken(userByToken.getUsername(), userByToken.role.toString());
+        int expiresIn = tokenUtils.getExpiredIn();
+        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
     }
 
-    @CrossOrigin
-    @GetMapping("role/testuser")
-    public ResponseEntity<Boolean> testUser(){
-        return new ResponseEntity<>(true, HttpStatus.OK);
-    }
 }

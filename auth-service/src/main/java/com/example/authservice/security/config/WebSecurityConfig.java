@@ -59,7 +59,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
-                .authorizeRequests().antMatchers("/auth/login").permitAll()
+                .authorizeRequests()
+                .antMatchers("/auth/login").permitAll()
+                .antMatchers("/auth/passwordlesslogin").permitAll()
                 .antMatchers("/auth/role/testadmin").hasAuthority("ADMIN")
                 .antMatchers("/auth/role/testuser").hasAuthority("USER")
 
@@ -76,6 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
+        web.ignoring().antMatchers(HttpMethod.POST, "/auth/passwordlesslogin");
 
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");

@@ -122,7 +122,7 @@ public class UserService {
         VerificationToken verificationToken = new VerificationToken(
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
-                newUser);
+                newUser.id);
 
         tokenRepository.save(verificationToken);
 
@@ -167,6 +167,52 @@ public class UserService {
 
         return status;
 
+    }
+
+    public boolean sendEmailPasswordlessLogin(String email){
+        User user = userRepository.findByEmail(email);
+        if(user != null){
+
+            VerificationToken verificationToken = new VerificationToken(
+                    LocalDateTime.now(),
+                    LocalDateTime.now().plusMinutes(1),
+                    user.id);
+
+            tokenRepository.save(verificationToken);
+
+            String confirmationLink = "http://localhost:4200/passwordless?tokenId=" + verificationToken.token;
+            String emailContent = "Dear " + user.firstName + " ,\n " +
+                    "In order to confirm your identity, please click on the following link: \n" +
+                    confirmationLink + "\n\n Regards, Dislinkt";
+
+            emailService.send(email, emailContent);
+            return true;
+        }
+        else return false;
+    }
+
+    public User getUserByTokenId(String token){
+        VerificationToken verificationToken = tokenRepository.findByToken(token);
+
+        validateToken(verificationToken);
+        User user = userRepository.findById(verificationToken.userId).orElse(null);
+        tokenRepository.delete(verificationToken);
+
+        return user;
+    }
+
+    private void  validateToken(VerificationToken token){
+
+        if (token == null) {
+            throw new IllegalStateException("Token Already Used");
+        }
+
+        LocalDateTime expiredAt = token.expiresAt;
+
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            tokenRepository.delete(token);
+            throw new IllegalStateException("Token Expired");
+        }
     }
 
     private String buildEmail(String name, String link) {

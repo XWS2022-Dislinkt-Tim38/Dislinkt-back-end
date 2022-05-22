@@ -60,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 .authorizeRequests()
+                .antMatchers("/user/getByTokenId/token").permitAll()
                 .antMatchers("/user/role/testadmin").hasAuthority("ADMIN")
                 .antMatchers("/user/role/testuser").hasAnyAuthority("USER")
 

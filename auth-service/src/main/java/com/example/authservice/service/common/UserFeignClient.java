@@ -11,4 +11,7 @@ public interface UserFeignClient {
 
     @GetMapping(value = "/user/username")
     public User getUserByUsername(@RequestParam String username);
+
+    @GetMapping(value = "/user/getByTokenId/token")
+    public User getUserByTokenId(@RequestParam String token);
 }
