@@ -77,7 +77,6 @@ public class UserController {
             userService.saveTokenAndSendEmail(user);
             return new ResponseEntity<>("Email sent!",HttpStatus.OK);
         }
-        System.out.println("Nije ga nasao");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -150,4 +149,7 @@ public class UserController {
         User user = userService.getUserByTokenId(token);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
+
+
 }
