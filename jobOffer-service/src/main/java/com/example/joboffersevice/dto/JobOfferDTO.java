@@ -7,7 +7,6 @@ import java.util.List;
 
 public class JobOfferDTO {
 
-
     public String id;
     public String title;
     public String content;
@@ -21,7 +20,7 @@ public class JobOfferDTO {
     public Date deadlineDate;
     public String city;
 
-
+    public JobOfferDTO(){}
     public JobOfferDTO(JobOffer jobOffer){
         this.id =  jobOffer.id;
         this.title = jobOffer.title;
@@ -36,6 +35,5 @@ public class JobOfferDTO {
         this.deadlineDate = jobOffer.deadlineDate;
         this.city = jobOffer.city;
     }
-
 
 }

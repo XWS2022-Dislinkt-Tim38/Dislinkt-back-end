@@ -24,7 +24,7 @@ public class JobOffer {
     public Date deadlineDate;
     public String city;
 
-
+    public JobOffer(){}
     public JobOffer(JobOfferDTO jobOfferDTO){
         String id = java.util.UUID.randomUUID().toString();
         this.id = "jobOffer_" + id;
@@ -36,7 +36,7 @@ public class JobOffer {
         this.seniority = jobOfferDTO.seniority;
         this.requirements = jobOfferDTO.requirements;
         this.workType = jobOfferDTO.workType;
-        this.publishDate = jobOfferDTO.publishDate;
+        this.publishDate = new Date();
         this.deadlineDate = jobOfferDTO.deadlineDate;
         this.city = jobOfferDTO.city;
     }

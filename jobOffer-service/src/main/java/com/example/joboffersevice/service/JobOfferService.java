@@ -74,7 +74,6 @@ public class JobOfferService {
 
         JobOffer jobOffer = new JobOffer(newJobOfferDTO);
         jobOfferRepository.save(jobOffer);
-
         return new JobOfferDTO(jobOffer);
     }
 }
