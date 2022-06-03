@@ -38,6 +38,7 @@ public class User {
     public List<String> following;
     public List<String> followers;
     public List<String> followRequests; //IDs of users that sent the request
+    public String key;
     public User() {}
 
     public User(String firstName, String lastName,boolean isPublic, String username, String password,
@@ -86,6 +87,7 @@ public class User {
         this.role = Role.USER;
         this.isVerified = false;
         this.isBlocked = false;
+        this.key = "";
     }
 }
 

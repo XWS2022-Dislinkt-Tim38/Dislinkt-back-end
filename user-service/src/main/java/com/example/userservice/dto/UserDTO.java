@@ -48,6 +48,7 @@ public class UserDTO {
     public List<String> followers;
     public List<String> following;
     public List<String> followRequests;
+    public String key;
 
 
     public UserDTO(){}
@@ -78,5 +79,6 @@ public class UserDTO {
         this.following = user.following;
         this.followers = user.followers;
         this.followRequests = user.followRequests;
+        this.key = user.key;
     }
 }

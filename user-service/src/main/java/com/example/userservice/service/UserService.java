@@ -1,5 +1,6 @@
 package com.example.userservice.service;
 
+import com.example.userservice.dto.LinkRequestDTO;
 import com.example.userservice.dto.PasswordRecoveryDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.model.User;
@@ -269,6 +270,20 @@ public class UserService {
             tokenRepository.delete(token);
             throw new IllegalStateException("Token Expired");
         }
+    }
+
+    public String linkAccount(LinkRequestDTO linkRequestDTO){
+        String key = "";
+        User user = userRepository.findByUsername(linkRequestDTO.username);
+        if(user != null){
+            if(passwordEncoder().matches(linkRequestDTO.password, user.password)){
+                key = java.util.UUID.randomUUID().toString();
+                user.key = key;
+                userRepository.save(user);
+            }
+        }
+
+        return key;
     }
 
     private String buildEmail(String name, String link) {

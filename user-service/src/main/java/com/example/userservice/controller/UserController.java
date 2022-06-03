@@ -1,5 +1,6 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.LinkRequestDTO;
 import com.example.userservice.dto.PasswordRecoveryDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.model.User;
@@ -149,5 +150,12 @@ public class UserController {
     public ResponseEntity<User> getUserByTokenId( @RequestParam String token){
         User user = userService.getUserByTokenId(token);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4201")
+    @PutMapping("/link")
+    public ResponseEntity<Object> getUserByTokenId(@RequestBody LinkRequestDTO linkRequestDTO){
+        String key = userService.linkAccount(linkRequestDTO);
+        return new ResponseEntity<>(key, HttpStatus.OK);
     }
 }
