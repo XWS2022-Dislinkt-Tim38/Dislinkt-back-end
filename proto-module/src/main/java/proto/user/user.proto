@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package user;
+
+import "google/protobuf/empty.proto";
+
+option java_package = "proto.user";
+option java_multiple_files = true;
+
+message InputID {
+  string id = 1;
+}
+
+message InputUsername {
+  string username = 1;
+}
+
+message Output {
+  string id = 1;
+  string result = 2;
+  string firstName = 3;
+  string lastName = 4;
+  string email = 5;
+  string username = 6;
+  string password = 7;
+}
+
+message Input {
+  string firstName = 1;
+  string lastName = 2;
+  string email = 3;
+  string username = 4;
+  string password = 5;
+}
+
+service UserService {
+  rpc getUserById(InputID) returns (Output){};
+  rpc getUserByUsername(InputUsername) returns (Output){};
+}

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
 
     @Autowired
     private UserRepository userRepository;
@@ -356,5 +356,23 @@ public class UserService {
                 "\n" +
                 "</div></div>";
     }
+
+    //grpc
+//    public void getUserById(InputID request, StreamObserver<Output> responseObserver) {
+//        User user = userRepository.findById(id).orElse(null);
+//        proto.user.Output output;
+//        if(user == null){
+//            output = Output.newBuilder().build();
+//        }else {
+//            output = Output.newBuilder()
+//                    .setEmail(user.getEmail())
+//                    .setUsername(user.getUsername())
+//                    .setFirstName(user.getFirstName())
+//                    .setLastName(user.getLastName())
+//                    .build();
+//        }
+//        responseObserver.onNext(output);
+//        responseObserver.onCompleted();
+//    }
 
 }
