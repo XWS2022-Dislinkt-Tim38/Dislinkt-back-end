@@ -2,11 +2,14 @@ package com.example.postservice.service.implementation;
 
 import com.example.postservice.dto.CommentDTO;
 import com.example.postservice.dto.PostDTO;
+import com.example.postservice.dto.UserDTO;
 import com.example.postservice.model.Comment;
 import com.example.postservice.model.Post;
 import com.example.postservice.repository.CommentRepository;
 import com.example.postservice.repository.PostRepository;
 import com.example.postservice.service.PostService;
+import com.example.postservice.service.common.UserFeignClient;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,9 @@ public class PostServiceImplementation implements PostService {
     private PostRepository postRepository;
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private UserFeignClient userFeignClient;
 
 
     @Override
@@ -142,5 +148,20 @@ public class PostServiceImplementation implements PostService {
             postRepository.deleteById(id);
 
         return status;
+    }
+
+    @Override
+    public List<PostDTO> loadAllPublicPosts() {
+        List<Post> allPosts = postRepository.findAll();
+        List<PostDTO> publicPosts = new ArrayList<>();
+
+        for(Post post : allPosts){
+            UserDTO owner = userFeignClient.getUser(post.ownerId);
+            if(owner.isPublic){
+                publicPosts.add(new PostDTO(post));
+            }
+        }
+
+        return publicPosts;
     }
 }

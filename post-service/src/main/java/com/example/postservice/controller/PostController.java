@@ -30,9 +30,17 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllUsers() {
+    public ResponseEntity<List<PostDTO>> getAllPosts() {
 
         List<PostDTO> posts = postService.getAllPosts();
+
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/public")
+    public ResponseEntity<List<PostDTO>> getAllPublicPosts() {
+
+        List<PostDTO> posts = postService.loadAllPublicPosts();
 
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }

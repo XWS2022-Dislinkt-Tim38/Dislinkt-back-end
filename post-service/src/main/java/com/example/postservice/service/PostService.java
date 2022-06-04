@@ -25,5 +25,6 @@ public interface PostService {
      boolean dislikePost(String postId, String userId);
      CommentDTO addComment(CommentDTO newCommentDTO, String postId, String userId);
      boolean deletePost(String id);
+     List<PostDTO> loadAllPublicPosts();
 
 }
