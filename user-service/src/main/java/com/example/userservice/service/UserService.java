@@ -126,6 +126,8 @@ public class UserService {
         return userRepository.findByEmail(email) != null;
     }
 
+
+
     private void sendVerification(User newUser){
         //EmailConfirmation
         VerificationToken verificationToken = new VerificationToken(

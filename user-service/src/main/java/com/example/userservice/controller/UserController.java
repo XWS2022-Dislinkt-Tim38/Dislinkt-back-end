@@ -78,7 +78,6 @@ public class UserController {
             userService.saveTokenAndSendEmail(user);
             return new ResponseEntity<>(true,HttpStatus.OK);
         }
-        System.out.println("Nije ga nasao");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -138,6 +137,7 @@ public class UserController {
     public ResponseEntity<Boolean> testUserRole(){
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+
     @CrossOrigin
     @PostMapping("/passwordless")
     public ResponseEntity<Boolean> sendEmailForPasswordlessLogin( @RequestBody String email){
@@ -158,4 +158,5 @@ public class UserController {
         String key = userService.linkAccount(linkRequestDTO);
         return new ResponseEntity<>(key, HttpStatus.OK);
     }
+
 }
