@@ -8,6 +8,7 @@ import java.util.List;
 public class PostDTO {
 
     public String id;
+    public String username;
     public String ownerId;
     public String title;
     public String content;
@@ -23,23 +24,9 @@ public class PostDTO {
     public Date dateEdited;
 
     public PostDTO() {}
-
-    public PostDTO(String id, String ownerId, String title, String content, Date datePosted, Date dateEdited,
-                   String image, String link, List<String> likes, List<String> dislikes) {
-        this.id = id;
-        this.ownerId = ownerId;
-        this.title = title;
-        this.content = content;
-        this.datePosted = datePosted;
-        this.dateEdited = dateEdited;
-        this.image = image;
-        this.link = link;
-        this.likes = likes;
-        this.dislikes = dislikes;
-    }
-
     public PostDTO(Post post){
         this.id = post.id;
+        this.username = post.username;
         this.ownerId = post.ownerId;
         this.title = post.title;
         this.content = post.content;

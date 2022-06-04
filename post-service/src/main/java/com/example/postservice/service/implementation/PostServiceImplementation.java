@@ -78,6 +78,7 @@ public class PostServiceImplementation implements PostService {
             Post postToUpdate = postRepository.findById(updatePostDTO.id).orElse(null);
             assert postToUpdate != null;
             postToUpdate.dateEdited = new Date();
+            postToUpdate.username = updatePostDTO.username;
             postToUpdate.title = updatePostDTO.title;
             postToUpdate.content = updatePostDTO.content;
             postToUpdate.image = updatePostDTO.image;
@@ -131,12 +132,8 @@ public class PostServiceImplementation implements PostService {
     }
 
     @Override
-    public CommentDTO addComment(CommentDTO newCommentDTO, String postId, String userId) {
+    public CommentDTO addComment(CommentDTO newCommentDTO) {
         Comment newComment = new Comment(newCommentDTO);
-        newComment.postId = postId;
-        newComment.userId = userId;
-        newComment.dateCreated = new Date();
-        newComment.dateEdited = new Date();
         commentRepository.save(newComment);
         return new CommentDTO(newComment);
     }

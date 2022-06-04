@@ -10,6 +10,7 @@ public class Comment {
 
     public String id;
     public String userId;
+    public String username;
     public String postId;
     public String content;
     public Date dateCreated;

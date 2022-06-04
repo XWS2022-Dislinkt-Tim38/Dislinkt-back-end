@@ -23,7 +23,7 @@ public interface PostService {
      boolean updatePost(PostDTO updatePostDTO);
      boolean likePost(String postId, String userId);
      boolean dislikePost(String postId, String userId);
-     CommentDTO addComment(CommentDTO newCommentDTO, String postId, String userId);
+     CommentDTO addComment(CommentDTO newCommentDTO);
      boolean deletePost(String id);
      List<PostDTO> loadAllPublicPosts();
 

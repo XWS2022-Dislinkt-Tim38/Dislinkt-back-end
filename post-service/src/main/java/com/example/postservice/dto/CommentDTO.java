@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class CommentDTO {
     public String id;
+    public String username;
     public String userId;
     public String postId;
     public String content;
@@ -25,6 +26,7 @@ public class CommentDTO {
     public CommentDTO(Comment comment){
         this.id = comment.id;
         this.userId = comment.userId;
+        this.username = comment.username;
         this.postId = comment.postId;
         this.content = comment.content;
         this.dateCreated = comment.dateCreated;

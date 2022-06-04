@@ -111,8 +111,8 @@ public class PostController {
     }
 
     @PostMapping(value = "/comment")
-    public  ResponseEntity<Object> addComment(@RequestBody CommentDTO newCommentDTO, @RequestParam String postId, @RequestParam String userId){
-        CommentDTO comment = postService.addComment(newCommentDTO, postId, userId);
+    public  ResponseEntity<Object> addComment(@RequestBody CommentDTO newCommentDTO){
+        CommentDTO comment = postService.addComment(newCommentDTO);
         return new ResponseEntity<>(Objects.requireNonNullElse(comment, "Can not add comment!"), HttpStatus.OK);
     }
 }
