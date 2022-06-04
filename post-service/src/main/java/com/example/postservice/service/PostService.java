@@ -26,5 +26,6 @@ public interface PostService {
      CommentDTO addComment(CommentDTO newCommentDTO);
      boolean deletePost(String id);
      List<PostDTO> loadAllPublicPosts();
+     List<PostDTO> getFeed(String userId);
 
 }

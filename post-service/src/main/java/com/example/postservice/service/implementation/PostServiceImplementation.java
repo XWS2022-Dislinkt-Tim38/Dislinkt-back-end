@@ -161,4 +161,18 @@ public class PostServiceImplementation implements PostService {
 
         return publicPosts;
     }
+
+    @Override
+    public List<PostDTO> getFeed(String userId) {
+        List<PostDTO> feed = new ArrayList<>();
+        UserDTO owner = userFeignClient.getUser(userId);
+
+        for(String followingUserId : owner.following)
+        {
+            List<PostDTO> followingPosts = getAllPostsByOwner(followingUserId);
+            feed.addAll(followingPosts);
+        }
+
+        return feed;
+    }
 }

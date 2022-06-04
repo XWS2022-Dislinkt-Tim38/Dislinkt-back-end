@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +43,14 @@ public class PostController {
     public ResponseEntity<List<PostDTO>> getAllPublicPosts() {
 
         List<PostDTO> posts = postService.loadAllPublicPosts();
+
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/feed/{idUser}")
+    public ResponseEntity<List<PostDTO>> getFeed(@PathVariable String idUser) {
+
+        List<PostDTO> posts = postService.getFeed(idUser);
 
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
