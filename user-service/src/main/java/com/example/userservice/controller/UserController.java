@@ -72,11 +72,11 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping(value = "/resetPasswordRequest")
-    public ResponseEntity<String> resetPasswordRequest(@RequestBody String email) {
+    public ResponseEntity<Object> resetPasswordRequest(@RequestBody String email) {
         User user = userService.getUserByEmail(email);
         if(user != null){
             userService.saveTokenAndSendEmail(user);
-            return new ResponseEntity<>("Email sent!",HttpStatus.OK);
+            return new ResponseEntity<>(true,HttpStatus.OK);
         }
         System.out.println("Nije ga nasao");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
