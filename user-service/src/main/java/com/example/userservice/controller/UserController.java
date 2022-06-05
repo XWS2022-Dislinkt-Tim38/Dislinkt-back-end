@@ -159,4 +159,11 @@ public class UserController {
         return new ResponseEntity<>(key, HttpStatus.OK);
     }
 
+    @PutMapping(value = "/unfollow")
+    public ResponseEntity<Boolean> unfollowUser(@RequestParam (value = "subjectId") String subjectId,
+                                             @RequestParam (value = "targetId") String targetId){
+        Boolean response = followingService.unfollowUser(subjectId, targetId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

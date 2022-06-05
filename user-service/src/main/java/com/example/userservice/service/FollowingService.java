@@ -5,6 +5,8 @@ import com.example.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ListIterator;
+
 @Service
 public class FollowingService {
 
@@ -18,7 +20,8 @@ public class FollowingService {
         if(target == null) response = "User you want to follow cannot be found!";
         else if (subject == null)  response = "User can not be found!";
         else {
-
+            //TODO: Uncomment
+            /*
             if(!target.isPublic){
                 target.followRequests.add(subjectId);
                 userRepository.save(target);
@@ -28,6 +31,10 @@ public class FollowingService {
                 addFollower(subject, target);
                 response = "You successfully followed " + target.username;
             }
+            */
+
+            addFollower(subject, target);
+            response = "You successfully followed " + target.username;
         }
         return response;
     }
@@ -64,5 +71,22 @@ public class FollowingService {
         subject.following.add(target.id);
         userRepository.save(target);
         userRepository.save(subject);
+    }
+
+    public boolean unfollowUser(String subjectId, String targetId) {
+
+        boolean response = false;
+        User subject = userRepository.findById(subjectId).orElse(null);
+        User target = userRepository.findById(targetId).orElse(null);
+
+        if(subject != null && target != null){
+            subject.following.removeIf(s -> s.equals(targetId));
+            target.followers.removeIf(t -> t.equals(subjectId));
+
+            userRepository.save(target);
+            userRepository.save(subject);
+            response = true;
+        }
+        return response;
     }
 }
