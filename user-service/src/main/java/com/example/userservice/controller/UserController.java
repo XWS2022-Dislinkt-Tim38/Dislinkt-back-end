@@ -7,6 +7,7 @@ import com.example.userservice.model.User;
 import com.example.userservice.service.FollowingService;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.ProjectedPayload;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -113,9 +114,9 @@ public class UserController {
 
     }
 
-    @PutMapping(value = "/follow")
-    public ResponseEntity<String> followUser(@RequestParam (value = "subjectId") String subjectId,
-                                             @RequestParam (value = "targetId") String targetId){
+    @PutMapping(value = "/follow/{subjectId}/{targetId}")
+    public ResponseEntity<String> followUser(@PathVariable (value = "subjectId") String subjectId,
+                                             @PathVariable(value = "targetId") String targetId){
         String response = followingService.followUser(subjectId, targetId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -159,9 +160,9 @@ public class UserController {
         return new ResponseEntity<>(key, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/unfollow")
-    public ResponseEntity<Boolean> unfollowUser(@RequestParam (value = "subjectId") String subjectId,
-                                             @RequestParam (value = "targetId") String targetId){
+    @PutMapping(value = "/unfollow/{subjectId}/{targetId}")
+    public ResponseEntity<Boolean> unfollowUser(@PathVariable (value = "subjectId") String subjectId,
+                                             @PathVariable (value = "targetId") String targetId){
         Boolean response = followingService.unfollowUser(subjectId, targetId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
