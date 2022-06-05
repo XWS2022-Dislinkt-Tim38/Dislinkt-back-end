@@ -194,7 +194,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
             userToUpdate.firstName = updateUserDTO.firstName;
             userToUpdate.lastName = updateUserDTO.lastName;
             userToUpdate.username = updateUserDTO.username;
-            userToUpdate.password = passwordEncoder().encode(updateUserDTO.password);
+            //userToUpdate.password = passwordEncoder().encode(updateUserDTO.password);
             userToUpdate.address = updateUserDTO.address;
             userToUpdate.email = updateUserDTO.email;
             userToUpdate.dateOfBirth = updateUserDTO.dateOfBirth;
