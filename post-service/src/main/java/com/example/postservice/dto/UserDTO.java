@@ -1,6 +1,7 @@
 package com.example.postservice.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserDTO {
 
@@ -18,18 +19,8 @@ public class UserDTO {
     public String username;
     public String password;
 
+    public List<String> following;
+
     public UserDTO(){}
 
-    public UserDTO(String id, String firstName, String lastName, String address, Date dateOfBirth, String biography,
-                   boolean isPublic, String username, String password) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.dateOfBirth = dateOfBirth;
-        this.biography = biography;
-        this.isPublic = isPublic;
-        this.username = username;
-        this.password = password;
-    }
 }

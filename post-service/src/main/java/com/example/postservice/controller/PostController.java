@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Objects;
 
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping(value = "/post")
 public class PostController {
@@ -30,9 +32,33 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllUsers() {
+    public ResponseEntity<List<PostDTO>> getAllPosts() {
 
         List<PostDTO> posts = postService.getAllPosts();
+
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/public")
+    public ResponseEntity<List<PostDTO>> getAllPublicPosts() {
+
+        List<PostDTO> posts = postService.loadAllPublicPosts();
+
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/feed/{idUser}")
+    public ResponseEntity<List<PostDTO>> getFeed(@PathVariable String idUser) {
+
+        List<PostDTO> posts = postService.getFeed(idUser);
+
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/owner/{idUser}")
+    public ResponseEntity<List<PostDTO>> getOwnerPosts(@PathVariable String idUser) {
+
+        List<PostDTO> posts = postService.getAllPostsByOwner(idUser);
 
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
@@ -103,8 +129,17 @@ public class PostController {
     }
 
     @PostMapping(value = "/comment")
-    public  ResponseEntity<Object> addComment(@RequestBody CommentDTO newCommentDTO, @RequestParam String postId, @RequestParam String userId){
-        CommentDTO comment = postService.addComment(newCommentDTO, postId, userId);
+    public  ResponseEntity<Object> addComment(@RequestBody CommentDTO newCommentDTO){
+        CommentDTO comment = postService.addComment(newCommentDTO);
         return new ResponseEntity<>(Objects.requireNonNullElse(comment, "Can not add comment!"), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/search/{ownerId}/{search}")
+    public ResponseEntity<List<PostDTO>> getSearchedPosts(@PathVariable String ownerId, @PathVariable String search) {
+
+        List<PostDTO> posts = postService.getSearchedPosts(ownerId, search);
+
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
 }

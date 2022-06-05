@@ -10,10 +10,11 @@ import java.util.List;
 public class Post {
 
     public String id;
+
+    public String username;
     public String ownerId;
     public String title;
     public String content;
-
     public String image;
 
     public String link;
@@ -26,23 +27,11 @@ public class Post {
 
     public Post() {}
 
-    public Post(String ownerId, String title, String content, Date datePosted, Date dateEdited, String image,
-                String link, List<String> likes, List<String> dislikes) {
-        this.ownerId = ownerId;
-        this.title = title;
-        this.content = content;
-        this.datePosted = datePosted;
-        this.dateEdited = dateEdited;
-        this.image = image;
-        this.link = link;
-        this.likes = likes;
-        this.dislikes = dislikes;
-    }
-
     public Post(PostDTO postDTO){
         String id = java.util.UUID.randomUUID().toString();
         this.id = "post_" + id;
         this.ownerId = postDTO.ownerId;
+        this.username = postDTO.username;
         this.title = postDTO.title;
         this.content = postDTO.content;
         this.datePosted = postDTO.datePosted;
