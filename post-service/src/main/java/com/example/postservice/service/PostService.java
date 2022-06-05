@@ -28,4 +28,6 @@ public interface PostService {
      List<PostDTO> loadAllPublicPosts();
      List<PostDTO> getFeed(String userId);
 
+     List<PostDTO> getSearchedPosts(String ownerId, String search);
+
 }

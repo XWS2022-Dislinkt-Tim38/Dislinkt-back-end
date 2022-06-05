@@ -55,6 +55,14 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/owner/{idUser}")
+    public ResponseEntity<List<PostDTO>> getOwnerPosts(@PathVariable String idUser) {
+
+        List<PostDTO> posts = postService.getAllPostsByOwner(idUser);
+
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/user/{postId}")
     public ResponseEntity<Object> getUserByPost(@PathVariable String postId){
         PostDTO postDTO = postService.getPost(postId);
@@ -125,4 +133,13 @@ public class PostController {
         CommentDTO comment = postService.addComment(newCommentDTO);
         return new ResponseEntity<>(Objects.requireNonNullElse(comment, "Can not add comment!"), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/search/{ownerId}/{search}")
+    public ResponseEntity<List<PostDTO>> getSearchedPosts(@PathVariable String ownerId, @PathVariable String search) {
+
+        List<PostDTO> posts = postService.getSearchedPosts(ownerId, search);
+
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
 }

@@ -175,4 +175,16 @@ public class PostServiceImplementation implements PostService {
 
         return feed;
     }
+
+    @Override
+    public List<PostDTO> getSearchedPosts(String ownerId, String search) {
+        List<PostDTO> allPosts = getAllPostsByOwner(ownerId);
+        List<PostDTO> posts = new ArrayList<PostDTO>();
+        for(PostDTO post: allPosts){
+            if(post.content.toLowerCase().contains(search.toLowerCase()) || post.title.toLowerCase().contains(search.toLowerCase())){
+                posts.add(post);
+            }
+        }
+        return posts;
+    }
 }
