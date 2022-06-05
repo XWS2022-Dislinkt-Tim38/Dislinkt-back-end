@@ -44,19 +44,11 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
     }
 
     public User getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user != null)
-            return user;
-        else
-            return null;
+        return userRepository.findByUsername(username);
     }
 
     public User getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user != null)
-            return user;
-        else
-            return null;
+        return userRepository.findByEmail(email);
     }
 
     public List<UserDTO> getAllUsers() {
@@ -284,8 +276,11 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
                 userRepository.save(user);
             }
         }
-
         return key;
+    }
+
+    public User getUserByKey(String key) {
+        return userRepository.findByKey(key);
     }
 
     private String buildEmail(String name, String link) {

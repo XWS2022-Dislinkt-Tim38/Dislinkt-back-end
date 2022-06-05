@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4201")
 @RequestMapping(value = "/jobOffer")
 public class JobOfferController {
 
@@ -86,10 +86,15 @@ public class JobOfferController {
     @PostMapping
     public ResponseEntity<Object> createJobOffer(@RequestBody JobOfferDTO newJobOfferDTO){
         JobOfferDTO jobOfferDTO = jobOfferService.createJobOffer(newJobOfferDTO);
-        if(jobOfferDTO != null)
-            return new ResponseEntity<>(jobOfferDTO, HttpStatus.OK);
-        else
-            return new ResponseEntity<>("Something is wrong!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(jobOfferDTO, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("/import/{key}")
+    public ResponseEntity<Object> importJobOffer(@RequestBody JobOfferDTO newJobOfferDTO,
+                                                 @PathVariable String key){
+        JobOfferDTO jobOfferDTO = jobOfferService.importJobOffer(newJobOfferDTO, key);
+        return new ResponseEntity<>(jobOfferDTO, HttpStatus.OK);
     }
     
 }

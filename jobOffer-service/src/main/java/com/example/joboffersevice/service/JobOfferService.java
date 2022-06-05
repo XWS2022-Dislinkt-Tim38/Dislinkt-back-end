@@ -1,8 +1,10 @@
 package com.example.joboffersevice.service;
 
 import com.example.joboffersevice.dto.JobOfferDTO;
+import com.example.joboffersevice.dto.UserDTO;
 import com.example.joboffersevice.model.JobOffer;
 import com.example.joboffersevice.repository.JobOfferRepository;
+import com.example.joboffersevice.service.common.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ import java.util.List;
 public class JobOfferService {
     @Autowired
     private JobOfferRepository jobOfferRepository;
+
+    @Autowired
+    private UserFeignClient userFeignClient;
 
     public List<JobOfferDTO> getAllJobOffers(){
         List<JobOffer> jobOffers = jobOfferRepository.findAll();
@@ -73,6 +78,14 @@ public class JobOfferService {
     public JobOfferDTO createJobOffer(JobOfferDTO newJobOfferDTO) {
 
         JobOffer jobOffer = new JobOffer(newJobOfferDTO);
+        jobOfferRepository.save(jobOffer);
+        return new JobOfferDTO(jobOffer);
+    }
+
+    public JobOfferDTO importJobOffer(JobOfferDTO newJobOfferDTO, String key) {
+        UserDTO user = userFeignClient.getUser(key);
+        JobOffer jobOffer = new JobOffer(newJobOfferDTO);
+        jobOffer.idUSer = user.id;
         jobOfferRepository.save(jobOffer);
         return new JobOfferDTO(jobOffer);
     }

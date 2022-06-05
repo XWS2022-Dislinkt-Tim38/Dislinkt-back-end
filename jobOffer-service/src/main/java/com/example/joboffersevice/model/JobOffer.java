@@ -12,6 +12,7 @@ public class JobOffer {
 
     @Id
     public String id;
+    public String idUSer;
     public String title;
     public String content;
     public String company;
@@ -28,6 +29,7 @@ public class JobOffer {
     public JobOffer(JobOfferDTO jobOfferDTO){
         String id = java.util.UUID.randomUUID().toString();
         this.id = "jobOffer_" + id;
+        this.idUSer = jobOfferDTO.idUser;
         this.title = jobOfferDTO.title;
         this.content = jobOfferDTO.content;
         this.company = jobOfferDTO.company;

@@ -61,6 +61,16 @@ public class UserController {
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping(value = "/key/{key}")
+    public ResponseEntity<Object> getUserByKey(@PathVariable String key){
+
+        User user = userService.getUserByKey(key);
+        if(user != null)
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        else
+            return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping
     public ResponseEntity<Object> addUser(@Valid @RequestBody UserDTO newUserDTO) throws NoSuchAlgorithmException {
         UserDTO user = userService.addUser(newUserDTO);
