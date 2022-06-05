@@ -110,22 +110,16 @@ public class PostController {
 
     }
 
-    @PutMapping(value = "/like/{postId}")
-    public ResponseEntity<Object> likePost(@PathVariable String postId, @RequestParam String userId){
+    @PutMapping(value = "/like/{postId}/{userId}")
+    public ResponseEntity<Object> likePost(@PathVariable String postId, @PathVariable String userId){
         boolean status = postService.likePost(postId, userId);
-        if(status)
-            return new ResponseEntity<>("Post successfully liked!", HttpStatus.OK);
-        else
-            return new ResponseEntity<>("There was an error while like operation!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/dislike/{postId}")
-    public ResponseEntity<Object> dislikePost(@PathVariable String postId, @RequestParam String userId){
+    @PutMapping(value = "/dislike/{postId}/{userId}")
+    public ResponseEntity<Object> dislikePost(@PathVariable String postId, @PathVariable String userId){
         boolean status = postService.dislikePost(postId, userId);
-        if(status)
-            return new ResponseEntity<>("Post successfully disliked!", HttpStatus.OK);
-        else
-            return new ResponseEntity<>("There was an error while dislike operation!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
     @PostMapping(value = "/comment")
