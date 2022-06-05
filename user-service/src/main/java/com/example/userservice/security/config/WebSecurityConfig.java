@@ -77,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, "/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/user/{id}");
+        web.ignoring().antMatchers(HttpMethod.GET, "/user/key/{key}");
         web.ignoring().antMatchers(HttpMethod.GET, "/user");
         web.ignoring().antMatchers(HttpMethod.PUT, "/**");
         web.ignoring().antMatchers(HttpMethod.PUT, "/user/**");
