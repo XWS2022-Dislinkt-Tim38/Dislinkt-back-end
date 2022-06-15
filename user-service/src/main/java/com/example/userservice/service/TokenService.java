@@ -1,6 +1,5 @@
 package com.example.userservice.service;
 
-import com.example.userservice.model.User;
 import com.example.userservice.model.VerificationToken;
 import com.example.userservice.repository.TokenRepository;
 import org.slf4j.Logger;

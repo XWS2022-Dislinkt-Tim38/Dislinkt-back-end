@@ -35,7 +35,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<Object> createAuthenticationToken(
             @RequestBody AuthenticationRequest authenticationRequest) {
-        logger.info("Login Attempt for: " + authenticationRequest.getUsername());
+        logger.info("POST REQUEST /login for: " + authenticationRequest.getUsername());
 
         try{
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -58,7 +58,7 @@ public class AuthenticationController {
     @PostMapping("/passwordlesslogin")
     public ResponseEntity<UserTokenState> passwordlessLogin(
             @RequestBody String token) {
-
+        logger.info("POST REQUEST /login/passwordlesslogin");
         User userByToken = userFeignClient.getUserByTokenId(token);
         String jwt = tokenUtils.generateToken(userByToken.getUsername(), userByToken.role.toString(), userByToken.id);
         int expiresIn = tokenUtils.getExpiredIn();
