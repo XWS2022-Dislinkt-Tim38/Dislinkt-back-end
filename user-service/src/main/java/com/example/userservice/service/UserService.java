@@ -7,7 +7,6 @@ import com.example.userservice.model.User;
 import com.example.userservice.model.VerificationToken;
 import com.example.userservice.repository.TokenRepository;
 import com.example.userservice.repository.UserRepository;
-import com.example.userservice.service.validation.EmailValidator;
 import com.example.userservice.service.validation.UsernameValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +92,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
 
         User newUser = new User(newUserDTO);
         userRepository.save(newUser);
-        logger.info("Saved user with id: " + newUser.id + " to database");
+        logger.info("Registered user with id: " + newUser.id + " in database");
 
         sendVerification(newUser);
         return new UserDTO(newUser);
@@ -139,7 +138,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
         logger.info("Created verification token: " + verificationToken.id +
                 "for user with id: " + newUser.id);
 
-        String confirmationLink = "http://localhost:8000/token?tokenID=" + verificationToken.token;
+        String confirmationLink = "http://localhost:8000/token?tokenID=" + verificationToken.id;
         String emailContent = buildEmail(newUser.firstName, confirmationLink);
 
         emailService.send(newUser.email, emailContent);
@@ -168,17 +167,8 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
         VerificationToken foundToken = tokenRepository.findTokenById(changePasswordDTO.tokenId);
 
         if(foundToken != null) {
-            if (foundToken.confirmedAt != null) {
-                logger.info("Token with id: " + foundToken.id + " used");
-                throw new IllegalStateException("link expired/used");
-            }
 
-            LocalDateTime expiredAt = foundToken.expiresAt;
-
-            if (expiredAt.isBefore(LocalDateTime.now())) {
-                logger.info("Token with id: " + foundToken.id + " expired");
-                throw new IllegalStateException("link expired");
-            }
+            validateToken(foundToken);
 
             foundToken.confirmedAt = LocalDateTime.now();
             String idUser = foundToken.idUser;
@@ -245,7 +235,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
 
             tokenRepository.save(verificationToken);
 
-            String confirmationLink = "http://localhost:4200/passwordless?tokenId=" + verificationToken.token;
+            String confirmationLink = "http://localhost:4200/passwordless?tokenId=" + verificationToken.id;
             String emailContent = "Dear " + user.firstName + " ,\n " +
                     "In order to confirm your identity, please click on the following link: \n" +
                     confirmationLink + "\n\n Regards, Dislinkt";
@@ -256,8 +246,8 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
         else return false;
     }
 
-    public User getUserByTokenId(String token){
-        VerificationToken verificationToken = tokenRepository.findByToken(token);
+    public User getUserByTokenId(String tokenId){
+        VerificationToken verificationToken = tokenRepository.findTokenById(tokenId);
 
         validateToken(verificationToken);
         User user = userRepository.findById(verificationToken.idUser).orElse(null);
@@ -273,12 +263,16 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
             throw new IllegalStateException("Token Already Used");
         }
 
+        if (token.confirmedAt != null) {
+            logger.info("Token with id: " + token.id + " used");
+            throw new IllegalStateException("link expired/used");
+        }
+
         LocalDateTime expiredAt = token.expiresAt;
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            tokenRepository.delete(token);
-
-            throw new IllegalStateException("Token Expired");
+            logger.info("Token with id: " + token.id + " expired");
+            throw new IllegalStateException("link expired");
         }
     }
 

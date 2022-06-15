@@ -2,3 +2,4 @@
 2022-06-15 15:59:03,856 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.6.7, Spring v5.3.19
 2022-06-15 15:59:03,856 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
 2022-06-15 15:59:07,929 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AuthServiceApplication in 4.492 seconds (JVM running for 5.816)
+2022-06-15 16:39:25,195 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-1] User with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb successfully authenticated

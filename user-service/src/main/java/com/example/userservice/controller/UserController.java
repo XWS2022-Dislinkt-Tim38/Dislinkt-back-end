@@ -7,15 +7,13 @@ import com.example.userservice.model.User;
 import com.example.userservice.service.FollowingService;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.ProjectedPayload;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -30,7 +28,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false) boolean isPublic) {
 
-        List<UserDTO> users = new ArrayList<UserDTO>();
+        List<UserDTO> users;
 
         if(isPublic) {
             users = userService.getAllPublicProfiles();
@@ -72,12 +70,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> addUser(@Valid @RequestBody UserDTO newUserDTO) throws NoSuchAlgorithmException {
+    public ResponseEntity<Object> addUser(@Valid @RequestBody UserDTO newUserDTO)  {
         UserDTO user = userService.addUser(newUserDTO);
-        if(user != null)
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        else
-            return new ResponseEntity<>("Username already exists!", HttpStatus.OK);
+        return new ResponseEntity<>(Objects.requireNonNullElse(user, "Username already exists!"), HttpStatus.OK);
 
     }
 

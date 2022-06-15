@@ -12,3 +12,12 @@
 2022-06-15 16:05:22,885 ERROR com.example.userservice.service.UserService [http-nio-8000-exec-10] User with id: undefined not found
 2022-06-15 16:09:02,390 WARN com.example.userservice.service.UserService [http-nio-8000-exec-2] Password changed for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
 2022-06-15 16:09:02,391 INFO com.example.userservice.service.UserService [http-nio-8000-exec-2] Token with id:  token_022f0a2b-5cef-4ea4-96fa-d32ff654bc17 deleted
+2022-06-15 16:38:22,657 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting UserServiceApplication using Java 18.0.1.1 on DESKTOP-JN6GJII with PID 17924 (C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\user-service\target\classes started by Iodum99 in C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\user-service)
+2022-06-15 16:38:22,658 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-15 16:38:22,659 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-06-15 16:38:26,255 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started UserServiceApplication in 4.049 seconds (JVM running for 5.041)
+2022-06-15 16:39:24,959 INFO com.example.userservice.service.UserService [http-nio-8000-exec-6] Token with id:  token_f119bfab-9209-40d5-8cd3-704bb270431e deleted
+2022-06-15 16:39:39,798 INFO com.example.userservice.service.UserService [http-nio-8000-exec-9] Created verification token: token_64492e20-551b-4f31-8a9e-a3f155dcdbc5for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 16:39:41,148 INFO com.example.userservice.service.UserService [http-nio-8000-exec-9] Sent verification link for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 16:40:06,819 WARN com.example.userservice.service.UserService [http-nio-8000-exec-3] Password changed for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 16:40:06,820 INFO com.example.userservice.service.UserService [http-nio-8000-exec-3] Token with id:  token_64492e20-551b-4f31-8a9e-a3f155dcdbc5 deleted

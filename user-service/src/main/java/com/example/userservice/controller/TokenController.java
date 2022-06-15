@@ -20,13 +20,13 @@ public class TokenController {
 
     @GetMapping
     public ResponseEntity<String> confirmToken(@RequestParam(value = "tokenID") String tokenId) {
-        String response = tokenService.verifyToken(tokenId);
+        String response = tokenService.verifyTokenRegistration(tokenId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin
-    @GetMapping(value = "/recovery/{tokenID}")
-    public ResponseEntity<Boolean> checkIfTokenExpired(@RequestParam(value = "tokenID") String tokenId) {
+    @GetMapping(value = "/recovery/{tokenId}")
+    public ResponseEntity<Boolean> checkIfTokenExpired(@RequestParam(value = "tokenId") String tokenId) {
        Boolean response = tokenService.isExpired(tokenId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
