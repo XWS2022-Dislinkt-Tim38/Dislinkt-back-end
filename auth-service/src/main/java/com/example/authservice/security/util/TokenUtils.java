@@ -1,5 +1,7 @@
 package com.example.authservice.security.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,6 +18,7 @@ import java.util.Date;
 @Component
 public class TokenUtils {
 
+    Logger logger = LoggerFactory.getLogger(TokenUtils.class);
     // Izdavac tokena
     @Value("auth-service")
     private String APP_NAME;
@@ -89,33 +92,6 @@ public class TokenUtils {
         return issueAt;
     }
 
-    public String getAudienceFromToken(String token) {
-        String audience;
-        try {
-            final Claims claims = this.getAllClaimsFromToken(token);
-            audience = claims.getAudience();
-        } catch (ExpiredJwtException ex) {
-            throw ex;
-        } catch (Exception e) {
-            audience = null;
-        }
-        return audience;
-    }
-
-    public Date getExpirationDateFromToken(String token) {
-        Date expiration;
-        try {
-            final Claims claims = this.getAllClaimsFromToken(token);
-            expiration = claims.getExpiration();
-        } catch (ExpiredJwtException ex) {
-            throw ex;
-        } catch (Exception e) {
-            expiration = null;
-        }
-
-        return expiration;
-    }
-
     private Claims getAllClaimsFromToken(String token) {
         Claims claims;
         try {
@@ -137,9 +113,6 @@ public class TokenUtils {
                 && username.equals(userDetails.getUsername()));
     }
 
-    private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
-        return (lastPasswordReset != null && created.before(lastPasswordReset));
-    }
     public int getExpiredIn() {
         return EXPIRES_IN;
     }

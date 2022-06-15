@@ -58,7 +58,7 @@ public class UserController {
         if(user != null)
             return new ResponseEntity<>(user, HttpStatus.OK);
         else
-            return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/key/{key}")
