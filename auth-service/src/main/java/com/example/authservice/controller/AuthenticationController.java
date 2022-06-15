@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,25 +33,32 @@ public class AuthenticationController {
     private UserFeignClient userFeignClient;
 
     @PostMapping("/login")
-    public ResponseEntity<UserTokenState> createAuthenticationToken(
+    public ResponseEntity<Object> createAuthenticationToken(
             @RequestBody AuthenticationRequest authenticationRequest) {
         logger.info("Login Attempt for: " + authenticationRequest.getUsername());
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try{
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User user = (User) authentication.getPrincipal();
-        String jwt = tokenUtils.generateToken(user.getUsername(), user.role.toString(), user.id);
-        int expiresIn = tokenUtils.getExpiredIn();
-        logger.info("User with id: " + user.id + " successfully authenticated");
-        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+            User user = (User) authentication.getPrincipal();
+            String jwt = tokenUtils.generateToken(user.getUsername(), user.role.toString(), user.id);
+            int expiresIn = tokenUtils.getExpiredIn();
+            logger.info("User with id: " + user.id + " successfully authenticated");
+            return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+
+        } catch (BadCredentialsException e){
+            logger.warn("Login attempt failed for: " + authenticationRequest.getUsername());
+            throw e;
+        }
+
     }
 
     @PostMapping("/passwordlesslogin")
     public ResponseEntity<UserTokenState> passwordlessLogin(
             @RequestBody String token) {
-        
+
         User userByToken = userFeignClient.getUserByTokenId(token);
         String jwt = tokenUtils.generateToken(userByToken.getUsername(), userByToken.role.toString(), userByToken.id);
         int expiresIn = tokenUtils.getExpiredIn();
