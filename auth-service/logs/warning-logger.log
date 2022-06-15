@@ -1,7 +1,0 @@
-2022-06-15 13:59:37,339 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-3] Login attempt failed for: ADMIN
-2022-06-15 14:00:48,651 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-1] Login attempt failed for: ADMIN
-2022-06-15 14:05:31,220 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-3] Login attempt failed for: ADMIN
-2022-06-15 14:06:39,233 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-5] Login attempt failed for: ADMIN
-2022-06-15 14:08:00,567 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-8] Login attempt failed for: ADMIN
-2022-06-15 14:08:29,156 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-9] Login attempt failed for: ADMIN
-2022-06-15 14:10:06,916 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-1] Login attempt failed for: ADMIN

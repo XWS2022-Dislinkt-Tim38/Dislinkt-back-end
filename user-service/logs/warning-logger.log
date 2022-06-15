@@ -1,0 +1,4 @@
+2022-06-15 15:59:20,400 ERROR com.example.userservice.service.UserService [http-nio-8000-exec-4] User with id: undefined not found
+2022-06-15 15:59:45,624 WARN com.example.userservice.service.UserService [http-nio-8000-exec-7] Password changed for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 16:05:22,885 ERROR com.example.userservice.service.UserService [http-nio-8000-exec-10] User with id: undefined not found
+2022-06-15 16:09:02,390 WARN com.example.userservice.service.UserService [http-nio-8000-exec-2] Password changed for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb

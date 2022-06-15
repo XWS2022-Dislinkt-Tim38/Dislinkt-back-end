@@ -1,31 +1,4 @@
-2022-06-15 13:58:32,747 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AuthServiceApplication using Java 18.0.1.1 on DESKTOP-JN6GJII with PID 17088 (C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\auth-service\target\classes started by Iodum99 in C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\auth-service)
-2022-06-15 13:58:32,750 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.6.7, Spring v5.3.19
-2022-06-15 13:58:32,751 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-06-15 13:58:36,196 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AuthServiceApplication in 3.886 seconds (JVM running for 4.84)
-2022-06-15 13:58:48,416 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-1] Login Attempt for: ADMIN
-2022-06-15 13:59:36,994 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-3] Login Attempt for: ADMIN
-2022-06-15 13:59:37,252 INFO com.example.authservice.service.CustomUserDetailsService [http-nio-8002-exec-3] Successfully loaded user with username: ADMIN
-2022-06-15 13:59:37,339 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-3] Login attempt failed for: ADMIN
-2022-06-15 14:00:32,328 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AuthServiceApplication using Java 18.0.1.1 on DESKTOP-JN6GJII with PID 6140 (C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\auth-service\target\classes started by Iodum99 in C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\auth-service)
-2022-06-15 14:00:32,331 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.6.7, Spring v5.3.19
-2022-06-15 14:00:32,331 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-06-15 14:00:35,825 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AuthServiceApplication in 3.959 seconds (JVM running for 4.898)
-2022-06-15 14:00:48,427 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-1] Login Attempt for: ADMIN
-2022-06-15 14:00:48,561 INFO com.example.authservice.service.CustomUserDetailsService [http-nio-8002-exec-1] Successfully loaded user with username: ADMIN
-2022-06-15 14:00:48,651 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-1] Login attempt failed for: ADMIN
-2022-06-15 14:05:31,102 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-3] Login Attempt for: ADMIN
-2022-06-15 14:05:31,135 INFO com.example.authservice.service.CustomUserDetailsService [http-nio-8002-exec-3] Successfully loaded user with username: ADMIN
-2022-06-15 14:05:31,220 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-3] Login attempt failed for: ADMIN
-2022-06-15 14:06:39,119 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-5] Login Attempt for: ADMIN
-2022-06-15 14:06:39,146 INFO com.example.authservice.service.CustomUserDetailsService [http-nio-8002-exec-5] Successfully loaded user with username: ADMIN
-2022-06-15 14:06:39,233 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-5] Login attempt failed for: ADMIN
-2022-06-15 14:08:00,453 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-8] Login Attempt for: ADMIN
-2022-06-15 14:08:00,461 INFO com.example.authservice.service.CustomUserDetailsService [http-nio-8002-exec-8] Successfully loaded user with username: ADMIN
-2022-06-15 14:08:00,567 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-8] Login attempt failed for: ADMIN
-2022-06-15 14:08:29,061 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-9] Login Attempt for: ADMIN
-2022-06-15 14:08:29,068 INFO com.example.authservice.service.CustomUserDetailsService [http-nio-8002-exec-9] Successfully loaded user with username: ADMIN
-2022-06-15 14:08:29,156 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-9] Login attempt failed for: ADMIN
-2022-06-15 14:10:06,818 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-1] Login Attempt for: ADMIN
-2022-06-15 14:10:06,828 INFO com.example.authservice.service.CustomUserDetailsService [http-nio-8002-exec-1] Successfully loaded user with username: ADMIN
-2022-06-15 14:10:06,916 WARN com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-1] Login attempt failed for: ADMIN
-2022-06-15 14:14:10,941 INFO com.example.authservice.controller.AuthenticationController [http-nio-8002-exec-4] User with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb successfully authenticated
+2022-06-15 15:59:03,853 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AuthServiceApplication using Java 18.0.1.1 on DESKTOP-JN6GJII with PID 6528 (C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\auth-service\target\classes started by Iodum99 in C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\auth-service)
+2022-06-15 15:59:03,856 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-15 15:59:03,856 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-06-15 15:59:07,929 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AuthServiceApplication in 4.492 seconds (JVM running for 5.816)

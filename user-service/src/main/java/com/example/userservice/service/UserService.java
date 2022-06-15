@@ -9,6 +9,8 @@ import com.example.userservice.repository.TokenRepository;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.validation.EmailValidator;
 import com.example.userservice.service.validation.UsernameValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,11 +23,11 @@ import java.util.List;
 @Service
 public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
 
+    Logger logger = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private TokenRepository tokenRepository;
-    private final EmailValidator emailValidator = new EmailValidator();
     @Autowired
     private final EmailService emailService = new EmailService();
     private final UsernameValidator usernameValidator = new UsernameValidator();
@@ -37,10 +39,14 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
 
     public UserDTO getUser(String id) {
         User user = userRepository.findById(id).orElse(null);
-        if (user != null)
+        if (user != null){
+            logger.info("Fetching user with id: " + id);
             return new UserDTO(user);
-        else
+        }
+        else{
             return null;
+        }
+
     }
 
     public User getUserByUsername(String username) {
@@ -60,6 +66,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
             usersDTO.add(new UserDTO(user));
         }
 
+        logger.info("Fetching all users from database");
         return usersDTO;
     }
 
@@ -72,6 +79,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
                 usersDTO.add(new UserDTO(user));
         }
 
+        logger.info("Fetching all public profiles");
         return usersDTO;
     }
 
@@ -85,6 +93,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
 
         User newUser = new User(newUserDTO);
         userRepository.save(newUser);
+        logger.info("Saved user with id: " + newUser.id + " to database");
 
         sendVerification(newUser);
         return new UserDTO(newUser);
@@ -94,6 +103,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalStateException("Token not found!"));
         user.isVerified = true;
         userRepository.save(user);
+        logger.info("Enabled user with id: " + user.id);
     }
     private void validate(UserDTO newUserDTO){
         String error = "";
@@ -103,8 +113,6 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
 
         if (usernameExists(newUserDTO.username) || emailExists((newUserDTO.email)))
             error += "Username or Email already exists!\n";
-
-        //TODO: Password Validation
 
         if(!error.equals(""))
             throw new IllegalStateException("\n" + error);
@@ -128,62 +136,66 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
                 newUser.id);
 
         tokenRepository.save(verificationToken);
+        logger.info("Created verification token: " + verificationToken.id +
+                "for user with id: " + newUser.id);
 
-        //TODO: Send E-mail
         String confirmationLink = "http://localhost:8000/token?tokenID=" + verificationToken.token;
-        //String emailContent = buildEmail(newUser.firstName, confirmationLink);
         String emailContent = buildEmail(newUser.firstName, confirmationLink);
 
         emailService.send(newUser.email, emailContent);
+        logger.info("Sent verification link for user with id: " + newUser.id);
     }
 
-    public void saveTokenAndSendEmail(User user){
+    public void passwordRecovery(User user){
         VerificationToken verificationToken = new VerificationToken(
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
                 user.id);
         tokenRepository.save(verificationToken);
-        //TODO: Send E-mail
+        logger.info("Created verification token: " + verificationToken.id +
+                "for user with id: " + user.id);
         String resetPasswordLink = "http://localhost:4200/password-recovery/" + verificationToken.id;
         String emailContent = "Dear " + user.firstName +
                 ", please click on the link below to reset your password: \n" +
                 resetPasswordLink + " \n(Expires in 15 minutes)\n Regards, Dislinkt";
 
         emailService.send(user.email, emailContent);
+        logger.info("Sent verification link for user with id: " + user.id);
     }
 
     public boolean changePassword(PasswordRecoveryDTO changePasswordDTO){
 
-        boolean status = false;
         VerificationToken foundToken = tokenRepository.findTokenById(changePasswordDTO.tokenId);
 
         if(foundToken != null) {
             if (foundToken.confirmedAt != null) {
+                logger.info("Token with id: " + foundToken.id + " used");
                 throw new IllegalStateException("link expired/used");
             }
 
             LocalDateTime expiredAt = foundToken.expiresAt;
 
             if (expiredAt.isBefore(LocalDateTime.now())) {
+                logger.info("Token with id: " + foundToken.id + " expired");
                 throw new IllegalStateException("link expired");
             }
 
             foundToken.confirmedAt = LocalDateTime.now();
             String idUser = foundToken.idUser;
-            User user = userRepository.findById(idUser).orElse(null);
+            User user = userRepository.findById(idUser).orElseThrow(NullPointerException::new);
+
             user.password = passwordEncoder().encode(changePasswordDTO.newPassword);
             userRepository.save(user);
             tokenRepository.delete(foundToken);
-            status = true;
+
+            logger.warn("Password changed for user with id: " + user.id);
+            logger.info("Token with id:  " + foundToken.id + " deleted");
+            return true;
 
         }else{
-            throw new IllegalStateException("Token doesn't exist");
+            return false;
         }
-
-        return status;
     }
-
-
 
     public boolean updateUser(UserDTO updateUserDTO) {
         boolean status = userRepository.existsById(updateUserDTO.id);
@@ -205,6 +217,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
             userToUpdate.profile = updateUserDTO.profile;
 
             userRepository.save(userToUpdate);
+            logger.warn("Changes made for user: " + userToUpdate.id);
         }
 
         return status;
@@ -216,6 +229,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
         if (status)
             userRepository.deleteById(id);
 
+        logger.info("User with id: " + id + " deleted");
         return status;
 
     }
@@ -248,6 +262,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
         validateToken(verificationToken);
         User user = userRepository.findById(verificationToken.idUser).orElse(null);
         tokenRepository.delete(verificationToken);
+        logger.info("Token with id:  " + verificationToken.id + " deleted");
 
         return user;
     }
@@ -262,6 +277,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
             tokenRepository.delete(token);
+
             throw new IllegalStateException("Token Expired");
         }
     }
@@ -274,6 +290,7 @@ public class UserService /*extends UserServiceGrpc.UserServiceImplBase*/ {
                 key = java.util.UUID.randomUUID().toString();
                 user.key = key;
                 userRepository.save(user);
+                logger.info("User with id: " + user.id + " linked account with Agent app");
             }
         }
         return key;

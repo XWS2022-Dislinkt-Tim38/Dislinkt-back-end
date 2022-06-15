@@ -1,0 +1,14 @@
+2022-06-15 15:58:57,673 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting UserServiceApplication using Java 18.0.1.1 on DESKTOP-JN6GJII with PID 13272 (C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\user-service\target\classes started by Iodum99 in C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\user-service)
+2022-06-15 15:58:57,674 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-15 15:58:57,675 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-06-15 15:59:01,860 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started UserServiceApplication in 4.743 seconds (JVM running for 7.224)
+2022-06-15 15:59:16,160 INFO com.example.userservice.service.UserService [http-nio-8000-exec-2] Created verification token: token_e1e585ac-b89c-4386-bbc0-b031d573b0cbfor user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 15:59:18,576 INFO com.example.userservice.service.UserService [http-nio-8000-exec-2] Sent verification link for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 15:59:20,400 ERROR com.example.userservice.service.UserService [http-nio-8000-exec-4] User with id: undefined not found
+2022-06-15 15:59:45,624 WARN com.example.userservice.service.UserService [http-nio-8000-exec-7] Password changed for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 15:59:45,626 INFO com.example.userservice.service.UserService [http-nio-8000-exec-7] Token with id:  token_e1e585ac-b89c-4386-bbc0-b031d573b0cb deleted
+2022-06-15 16:05:16,911 INFO com.example.userservice.service.UserService [http-nio-8000-exec-8] Created verification token: token_022f0a2b-5cef-4ea4-96fa-d32ff654bc17for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 16:05:18,320 INFO com.example.userservice.service.UserService [http-nio-8000-exec-8] Sent verification link for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 16:05:22,885 ERROR com.example.userservice.service.UserService [http-nio-8000-exec-10] User with id: undefined not found
+2022-06-15 16:09:02,390 WARN com.example.userservice.service.UserService [http-nio-8000-exec-2] Password changed for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
+2022-06-15 16:09:02,391 INFO com.example.userservice.service.UserService [http-nio-8000-exec-2] Token with id:  token_022f0a2b-5cef-4ea4-96fa-d32ff654bc17 deleted

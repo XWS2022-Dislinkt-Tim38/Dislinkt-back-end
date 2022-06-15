@@ -86,7 +86,7 @@ public class UserController {
     public ResponseEntity<Object> resetPasswordRequest(@RequestBody String email) {
         User user = userService.getUserByEmail(email);
         if(user != null){
-            userService.saveTokenAndSendEmail(user);
+            userService.passwordRecovery(user);
             return new ResponseEntity<>(true,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,0 +1,2 @@
+2022-06-15 15:59:20,400 ERROR com.example.userservice.service.UserService [http-nio-8000-exec-4] User with id: undefined not found
+2022-06-15 16:05:22,885 ERROR com.example.userservice.service.UserService [http-nio-8000-exec-10] User with id: undefined not found
