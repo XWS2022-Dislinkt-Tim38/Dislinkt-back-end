@@ -10,3 +10,11 @@
 2022-06-15 23:15:43,326 INFO com.example.userservice.service.UserService [http-nio-8000-exec-9] Sent verification link for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
 2022-06-15 23:15:54,221 WARN com.example.userservice.service.UserService [http-nio-8000-exec-1] Password changed for user with id: user_1a5ff2d2-ef18-424d-857a-cffa4a5a27bb
 2022-06-15 23:15:54,222 INFO com.example.userservice.service.UserService [http-nio-8000-exec-1] Token with id:  token_5f518475-b91b-4d01-87a1-2bc22e2ad889 deleted
+2022-06-15 23:32:29,468 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting UserServiceApplication using Java 18.0.1.1 on DESKTOP-JN6GJII with PID 12020 (C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\user-service\target\classes started by Iodum99 in C:\Users\Iodum99\Desktop\Faks Projekti\XWS-Projekat\user-service)
+2022-06-15 23:32:29,470 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.6.7, Spring v5.3.19
+2022-06-15 23:32:29,470 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-06-15 23:32:33,741 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started UserServiceApplication in 4.843 seconds (JVM running for 8.04)
+2022-06-15 23:33:12,250 INFO com.example.userservice.controller.UserController [http-nio-8000-exec-1] POST REQUEST /user/passwordless
+2022-06-15 23:33:21,068 INFO com.example.userservice.controller.UserController [http-nio-8000-exec-3] GET REQUEST /user/{id}
+2022-06-15 23:33:21,183 INFO com.example.userservice.controller.UserController [http-nio-8000-exec-4] GET REQUEST /user/getByTokenId/token
+2022-06-15 23:33:21,199 INFO com.example.userservice.service.UserService [http-nio-8000-exec-4] Token with id:  token_d87ead1a-536e-411d-b9b7-9fb18852edef deleted

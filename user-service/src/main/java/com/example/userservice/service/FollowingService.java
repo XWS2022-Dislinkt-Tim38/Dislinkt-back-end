@@ -2,12 +2,16 @@ package com.example.userservice.service;
 
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class FollowingService {
 
+    Logger logger = LoggerFactory.getLogger(FollowingService.class);
     @Autowired
     private UserRepository userRepository;
     public String followUser(String subjectId, String targetId){
@@ -33,6 +37,7 @@ public class FollowingService {
 
             addFollower(subject, target);
             response = "You successfully followed " + target.username;
+            logger.info("User with id: " + subjectId + " is now following user with id: " + targetId);
         }
         return response;
     }
@@ -51,12 +56,14 @@ public class FollowingService {
             target.followRequests.remove(subjectId);
             addFollower(subject, target);
             responseMessage = subject.username + " is now following you";
+            logger.info("User with id: " + subjectId + " is now following user with id: " + targetId);
             //TODO: Informisati korisnika da mu je zahtev odobren - Poruke/notifikacije
         }
         else{
 
             target.followRequests.remove(subjectId);
             userRepository.save(target);
+            logger.info("Request of user with id: " + subjectId + " to follow user with id: " + targetId + "declined");
             responseMessage = "You declined request of " + subject.username + " :(";
         }
 
@@ -85,6 +92,7 @@ public class FollowingService {
             userRepository.save(subject);
             response = true;
         }
+        logger.info("User with id: " + subjectId + " unfollowed user with id: " + targetId);
         return response;
     }
 }
