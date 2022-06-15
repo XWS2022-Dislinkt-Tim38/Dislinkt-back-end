@@ -9,7 +9,8 @@ import com.example.postservice.repository.CommentRepository;
 import com.example.postservice.repository.PostRepository;
 import com.example.postservice.service.PostService;
 import com.example.postservice.service.common.UserFeignClient;
-import org.apache.catalina.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 @Service
 public class PostServiceImplementation implements PostService {
 
+    Logger logger = LoggerFactory.getLogger(PostServiceImplementation.class);
     @Autowired
     private PostRepository postRepository;
     @Autowired
@@ -31,6 +34,7 @@ public class PostServiceImplementation implements PostService {
 
     @Override
     public PostDTO getPost(String id) {
+        logger.info("Fetching post with id: " + id);
         Post post = postRepository.findById(id).orElse(null);
         if (post != null)
             return new PostDTO(post);
@@ -40,6 +44,7 @@ public class PostServiceImplementation implements PostService {
 
     @Override
     public List<PostDTO> getAllPosts() {
+        logger.info("Fetching all posts");
         List<Post> posts = postRepository.findAll();
         List<PostDTO> postsDTO = new ArrayList<>();
 
@@ -52,6 +57,7 @@ public class PostServiceImplementation implements PostService {
 
     @Override
     public List<PostDTO> getAllPostsByOwner(String ownerId) {
+        logger.info("Fetching all posts by user with id: " + ownerId);
         List<Post> posts = postRepository.findAll();
         List<PostDTO> postsDTO = new ArrayList<>();
 
@@ -67,6 +73,7 @@ public class PostServiceImplementation implements PostService {
     public PostDTO addPost(PostDTO newPostDTO) {
         Post newPost = new Post(newPostDTO);
         postRepository.save(newPost);
+        logger.info("Saving post with id: " + newPost.id + " to database");
         return new PostDTO(newPost);
     }
 
@@ -84,6 +91,7 @@ public class PostServiceImplementation implements PostService {
             postToUpdate.image = updatePostDTO.image;
             postToUpdate.link = updatePostDTO.link;
             postRepository.save(postToUpdate);
+            logger.info("Updating post with id: " + postToUpdate.id + " in database");
         }
 
         return status;
@@ -106,7 +114,7 @@ public class PostServiceImplementation implements PostService {
                 postRepository.save(post);
             }
         }
-
+        logger.info("User with id: " + userId + " liked post with id: " + postId);
         return status;
     }
 
@@ -127,7 +135,7 @@ public class PostServiceImplementation implements PostService {
                 postRepository.save(post);
             }
         }
-
+        logger.info("User with id: " + userId + " disliked post with id: " + postId);
         return status;
     }
 
@@ -135,6 +143,7 @@ public class PostServiceImplementation implements PostService {
     public CommentDTO addComment(CommentDTO newCommentDTO) {
         Comment newComment = new Comment(newCommentDTO);
         commentRepository.save(newComment);
+        logger.info("Saved comment with id: " + newComment.id + " to database");
         return new CommentDTO(newComment);
     }
 
@@ -144,6 +153,7 @@ public class PostServiceImplementation implements PostService {
         if (status)
             postRepository.deleteById(id);
 
+        logger.info("Deleted post with id: " + id);
         return status;
     }
 
@@ -158,7 +168,7 @@ public class PostServiceImplementation implements PostService {
                 publicPosts.add(new PostDTO(post));
             }
         }
-
+        logger.info("Fetching all public posts");
         return publicPosts;
     }
 
@@ -172,7 +182,7 @@ public class PostServiceImplementation implements PostService {
             List<PostDTO> followingPosts = getAllPostsByOwner(followingUserId);
             feed.addAll(followingPosts);
         }
-
+        logger.info("Fetching feed for user with id: " + userId);
         return feed;
     }
 
@@ -185,6 +195,7 @@ public class PostServiceImplementation implements PostService {
                 posts.add(post);
             }
         }
+        logger.info("Fetching searched posts for user with id: " + ownerId);
         return posts;
     }
 }
